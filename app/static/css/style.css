@@ -1,3 +1,4 @@
+﻿img, iframe, video { max-width: 100%; height: auto; }
 /* ============================================
    PALETTE COLOR DARI ANDA
 ============================================ */
@@ -691,7 +692,7 @@ body {
 }
 
 .sejarah-content-landing h4::before {
-    content: '✦';
+    content: 'âœ¦';
     color: var(--orange);
     font-size: 1.4rem;
 }
@@ -2103,6 +2104,19 @@ body {
 /* ============================================
    DESKRIPSI BAHASA INDONESIA & INGGRIS
 ============================================ */
+/* ===== DESKRIPSI - STYLING LENGKAP ===== */
+    .place-description {
+        font-family: 'Poppins', 'Segoe UI', sans-serif;
+        color: #1a1a2e;
+        line-height: 1.8;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    .place-description img {
+        max-width: 100%;
+        height: auto;
+    }
+
 .place-description .text-indonesia {
     font-family: 'Poppins', 'Segoe UI', sans-serif;
     font-size: 1.05rem;
