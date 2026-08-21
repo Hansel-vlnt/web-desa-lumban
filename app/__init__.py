@@ -70,12 +70,24 @@ def create_app(config_class=Config):
     @app.route('/debug-info')
     def debug_info():
         import os
+        import glob
+        all_html_files = glob.glob('/var/task/**/*.html', recursive=True)
+        all_files_in_task = []
+        for root, dirs, files in os.walk('/var/task'):
+            # limit output to avoid massive payload
+            if len(all_files_in_task) > 500:
+                break
+            for f in files:
+                all_files_in_task.append(os.path.join(root, f))
+        
         return {
             'cwd': os.getcwd(),
             'base_dir': base_dir,
             'existing_template_dirs': [d for d in candidate_dirs if os.path.exists(d)],
             'files_in_cwd': os.listdir('.'),
-            'files_in_app': os.listdir(base_dir) if os.path.exists(base_dir) else []
+            'files_in_app': os.listdir(base_dir) if os.path.exists(base_dir) else [],
+            'html_files_found': all_html_files,
+            'first_500_files': all_files_in_task
         }
     
     # =========================================================
