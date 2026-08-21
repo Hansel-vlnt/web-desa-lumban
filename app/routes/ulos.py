@@ -9,14 +9,14 @@ ulos_bp = Blueprint('ulos', __name__)
 @ulos_bp.route('/ulos')
 def ulos_gallery():
     ulos_list = Ulos.query.filter_by(is_active=True).order_by(Ulos.created_at.desc()).all()
-    return render_template('public/ulos_gallery.html', ulos_list=ulos_list)
+    return render_template('front/ulos_gallery.html', ulos_list=ulos_list)
 
 @ulos_bp.route('/ulos/<string:qr_code>')
 def ulos_detail_by_qr(qr_code):
     ulos = Ulos.query.filter_by(qr_code=qr_code, is_active=True).first_or_404()
     photos = UlosPhoto.query.filter_by(ulos_id=ulos.id).order_by(UlosPhoto.sort_order).all()
     
-    return render_template('public/ulos_detail.html', ulos=ulos, photos=photos)
+    return render_template('front/ulos_detail.html', ulos=ulos, photos=photos)
 
 @ulos_bp.route('/ulos/audio/<int:ulos_id>/<string:language>')
 def play_audio(ulos_id, language):

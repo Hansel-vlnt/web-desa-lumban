@@ -26,7 +26,7 @@ def places_list():
     categories = Category.query.filter_by(is_active=True).all()
     
     return render_template(
-        'public/places.html',
+        'front/places.html',
         places=places,
         categories=categories,
         active_category=category_slug
@@ -56,7 +56,7 @@ def place_detail(slug):
     ).scalar() or 0
     
     return render_template(
-        'public/place_detail.html',
+        'front/place_detail.html',
         place=place,
         reviews=reviews,
         avg_rating=round(avg_rating, 1),

@@ -111,7 +111,7 @@ def create_app(config_class=Config):
             ulos_count = Ulos.query.filter_by(is_active=True).count()
             
             return render_template(
-                'public/index.html',
+                'front/index.html',
                 hero_image=hero_image,
                 hero_background=hero_background,
                 sejarah=sejarah,
@@ -195,7 +195,7 @@ def create_app(config_class=Config):
         huta_raja = Place.query.filter_by(destination_group='huta_raja', is_active=True).all()
         
         return render_template(
-            'public/wisata_alam.html',
+            'front/wisata_alam.html',
             lumban_manik={'wisata': lumban_manik, 'homestay': [], 'umkm': []},
             huta_raja={'wisata': huta_raja, 'homestay': [], 'umkm': []}
         )
@@ -207,7 +207,7 @@ def create_app(config_class=Config):
     def homestay_list():
         from app.models import Place
         homestays = Place.query.filter_by(place_type='homestay', is_active=True).all()
-        return render_template('public/homestay_list.html', homestays=homestays)
+        return render_template('front/homestay_list.html', homestays=homestays)
     
     # =========================================================
     # ROUTE UMKM - /umkm
@@ -216,7 +216,7 @@ def create_app(config_class=Config):
     def umkm_list():
         from app.models import Place
         umkms = Place.query.filter_by(place_type='umkm', is_active=True).all()
-        return render_template('public/umkm_list.html', umkms=umkms)
+        return render_template('front/umkm_list.html', umkms=umkms)
     
     # =========================================================
     # ROUTE ULOS GALERI - /ulos
@@ -225,7 +225,7 @@ def create_app(config_class=Config):
     def ulos_gallery():
         from app.models import Ulos
         ulos_list = Ulos.query.filter_by(is_active=True).all()
-        return render_template('public/ulos_gallery.html', ulos_list=ulos_list)
+        return render_template('front/ulos_gallery.html', ulos_list=ulos_list)
     
     # =========================================================
     # ROUTE ULOS DETAIL BY QR - /ulos/<qr_code>
@@ -235,7 +235,7 @@ def create_app(config_class=Config):
         from app.models import Ulos, UlosPhoto
         ulos = Ulos.query.filter_by(qr_code=qr_code, is_active=True).first_or_404()
         photos = UlosPhoto.query.filter_by(ulos_id=ulos.id).all()
-        return render_template('public/ulos_detail.html', ulos=ulos, photos=photos)
+        return render_template('front/ulos_detail.html', ulos=ulos, photos=photos)
     
     # =========================================================
     # ROUTE PLAY AUDIO - /ulos/audio/<ulos_id>/<language>

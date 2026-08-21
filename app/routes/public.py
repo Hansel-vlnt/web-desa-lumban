@@ -27,7 +27,7 @@ def index():
     ulos_count = Ulos.query.filter_by(is_active=True).count()
     
     return render_template(
-        'public/index.html',
+        'front/index.html',
         hero_image=hero_image,
         logo_desa=logo_desa,
         logo_bumdes=logo_bumdes,
@@ -47,7 +47,7 @@ def about():
     pemerintahan = VillageInfo.query.filter_by(type='pemerintahan', is_active=True).first()
     
     return render_template(
-        'public/about.html',
+        'front/about.html',
         sejarah=sejarah,
         visi_misi=visi_misi,
         pemerintahan=pemerintahan
@@ -96,7 +96,7 @@ def wisata_alam():
     }
     
     return render_template(
-        'public/wisata_alam.html',
+        'front/wisata_alam.html',
         lumban_manik=lumban_manik,
         huta_raja=huta_raja
     )
@@ -111,7 +111,7 @@ def homestay_list():
     for h in homestays:
         print(f"   - {h.name}: {len(h.photos)} foto")
     
-    return render_template('public/homestay_list.html', homestays=homestays)
+    return render_template('front/homestay_list.html', homestays=homestays)
 
 
 @public_bp.route('/umkm')
@@ -119,4 +119,4 @@ def homestay_list():
 def umkm_list():
     """Halaman semua UMKM"""
     umkms = Place.query.filter_by(place_type='umkm', is_active=True).all()
-    return render_template('public/umkm_list.html', umkms=umkms)
+    return render_template('front/umkm_list.html', umkms=umkms)
