@@ -1,0 +1,61 @@
+{% extends "public/base.html" %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold"><i class="fas fa-map-marked-alt text-warning"></i> Destinasi Wisata</h1>
+        <p class="lead">Jelajahi keindahan Desa Lumban Suhi-Suhi Toruan</p>
+    </div>
+</section>
+
+<div class="container py-5">
+    <!-- Filter Kategori -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{{ url_for('places.places_list') }}" class="btn btn-{{ 'primary' if not active_category else 'outline-primary' }}">
+                    Semua
+                </a>
+                {% for cat in categories %}
+                <a href="{{ url_for('places.places_list') }}?kategori={{ cat.slug }}" 
+                   class="btn btn-{{ 'primary' if active_category == cat.slug else 'outline-primary' }}">
+                    <i class="{{ cat.icon }}"></i> {{ cat.name }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Daftar Wisata -->
+    <div class="row g-4">
+        {% for place in places %}
+        <div class="col-md-4" data-aos="fade-up">
+            <div class="card h-100 border-0 shadow-sm">
+                {% if place.photo_path %}
+                <img src="{{ place.photo_path }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                {% else %}
+                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <i class="fas fa-image fa-3x text-muted"></i>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ place.name }}</h5>
+                    <p class="card-text text-muted small">{{ place.description|striptags|truncate(100) }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-primary">{{ place.category.name if place.category else '' }}</span>
+                        <a href="{{ url_for('places.place_detail', slug=place.slug) }}" class="btn btn-sm btn-primary">
+                            Lihat Detail <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12 text-center py-5">
+            <i class="fas fa-map-marked-alt fa-4x text-muted mb-3 d-block"></i>
+            <p class="text-muted">Belum ada tempat wisata yang terdaftar</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

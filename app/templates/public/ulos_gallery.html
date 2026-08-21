@@ -1,0 +1,278 @@
+{% extends "public/base.html" %}
+
+{% block extra_css %}
+<style>
+    /* ============================================
+       ULOS GALLERY - HERO TIDAK TERTIMPA
+    ============================================ */
+    
+    .ulos-hero {
+        background: linear-gradient(135deg, var(--purple-dark) 0%, var(--purple) 50%, var(--maroon) 100%);
+        padding: 140px 0 70px;
+        color: white;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        margin-top: -76px;
+        min-height: 320px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .ulos-hero .hero-content {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+    }
+    
+    .ulos-hero h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 10px;
+        color: white;
+    }
+    
+    .ulos-hero h1 i {
+        color: var(--yellow);
+        margin-right: 10px;
+    }
+    
+    .ulos-hero .lead {
+        color: rgba(255,255,255,0.9);
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        font-weight: 300;
+    }
+    
+    .ulos-hero .stats-badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.15);
+        backdrop-filter: blur(10px);
+        padding: 8px 25px;
+        border-radius: 50px;
+        font-size: 0.95rem;
+        color: rgba(255,255,255,0.9);
+        border: 1px solid rgba(255,255,255,0.15);
+    }
+    
+    .ulos-hero .stats-badge i {
+        color: var(--yellow);
+        margin-right: 8px;
+    }
+    
+    /* ===== CARD ULOS ===== */
+    .section-ulos-gallery {
+        padding: 60px 0;
+        background: #f8f9fa;
+    }
+    
+    .card-ulos-modern {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        transition: all 0.3s ease;
+        height: 100%;
+        border: 1px solid rgba(0,0,0,0.04);
+    }
+    
+    .card-ulos-modern:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+        border-color: var(--purple);
+    }
+    
+    .card-ulos-modern .card-img {
+        height: 220px;
+        overflow: hidden;
+        position: relative;
+        background: #f0f2f5;
+    }
+    
+    .card-ulos-modern .card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: all 0.3s ease;
+    }
+    
+    .card-ulos-modern:hover .card-img img {
+        transform: scale(1.05);
+    }
+    
+    .card-ulos-modern .card-img .card-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: var(--yellow);
+        color: var(--dark);
+        padding: 4px 14px;
+        border-radius: 50px;
+        font-size: 10px;
+        font-weight: 700;
+    }
+    
+    .card-ulos-modern .card-img .audio-badge {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        background: rgba(0,0,0,0.7);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 50px;
+        font-size: 10px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .card-ulos-modern .card-img .audio-badge i {
+        font-size: 12px;
+        color: var(--yellow);
+    }
+    
+    .card-ulos-modern .card-body {
+        padding: 18px 20px 20px;
+        text-align: center;
+    }
+    
+    .card-ulos-modern .card-body h5 {
+        font-weight: 700;
+        color: var(--dark);
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+    
+    .card-ulos-modern .btn-ulos-modern {
+        background: linear-gradient(135deg, var(--purple), var(--maroon));
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 8px 16px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        width: 100%;
+    }
+    
+    .card-ulos-modern .btn-ulos-modern:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px rgba(84, 1, 71, 0.3);
+        color: white;
+    }
+    
+    .card-ulos-modern .btn-ulos-modern i {
+        transition: all 0.3s ease;
+    }
+    
+    .card-ulos-modern .btn-ulos-modern:hover i {
+        transform: translateX(4px);
+    }
+    
+    @media (max-width: 768px) {
+        .ulos-hero {
+            padding: 120px 0 50px;
+            min-height: 250px;
+        }
+        .ulos-hero h1 {
+            font-size: 2.2rem;
+        }
+        .ulos-hero .lead {
+            font-size: 1rem;
+        }
+        .card-ulos-modern .card-img {
+            height: 180px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .ulos-hero {
+            padding: 100px 0 40px;
+            min-height: 200px;
+        }
+        .ulos-hero h1 {
+            font-size: 1.6rem;
+        }
+        .ulos-hero .stats-badge {
+            font-size: 0.8rem;
+            padding: 6px 18px;
+        }
+        .card-ulos-modern .card-img {
+            height: 160px;
+        }
+        .card-ulos-modern .card-body {
+            padding: 14px 16px 16px;
+        }
+        .card-ulos-modern .card-body h5 {
+            font-size: 0.9rem;
+        }
+        .card-ulos-modern .btn-ulos-modern {
+            font-size: 0.8rem;
+            padding: 6px 12px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- ====== HERO SECTION ====== -->
+<section class="ulos-hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1><i class="fas fa-umbrella"></i> Galeri ULOS</h1>
+            <p class="lead">Warisan Budaya Batak Toba - Koleksi ULOS Asli</p>
+            <div class="stats-badge">
+                <i class="fas fa-umbrella"></i> {{ ulos_list|length }} Jenis ULOS
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== LIST ULOS ====== -->
+<section class="section-ulos-gallery">
+    <div class="container">
+        {% if ulos_list %}
+        <div class="row g-4 justify-content-center">
+            {% for ulos in ulos_list %}
+            <div class="col-lg-3 col-md-4 col-6" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                <div class="card-ulos-modern h-100">
+                    <div class="card-img">
+                        {% if ulos.photos and ulos.photos[0] %}
+                        <img src="{{ ulos.photos[0].photo_path }}" alt="{{ ulos.name }}" loading="lazy">
+                        {% else %}
+                        <div style="width:100%;height:100%;background:linear-gradient(135deg, var(--purple), var(--maroon));display:flex;align-items:center;justify-content:center;">
+                            <i class="fas fa-umbrella" style="font-size:50px;color:rgba(255,255,255,0.2);"></i>
+                        </div>
+                        {% endif %}
+                        <span class="card-badge">{{ ulos.qr_code }}</span>
+                        
+                        {% if ulos.audio_indonesia or ulos.audio_english or ulos.audio_batak %}
+                        <div class="audio-badge">
+                            <i class="fas fa-headphones"></i> Audio
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="card-body">
+                        <h5>{{ ulos.name }}</h5>
+                        <a href="{{ url_for('ulos.ulos_detail_by_qr', qr_code=ulos.qr_code) }}" class="btn-ulos-modern">
+                            <i class="fas fa-qrcode"></i> Detail & QR
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state text-center py-5">
+            <i class="fas fa-umbrella fa-4x text-muted mb-3 d-block"></i>
+            <p class="text-muted">Belum ada ULOS yang ditambahkan</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-tags text-warning"></i> Kategori</h2>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-white">
+        <h6 class="mb-0">Tambah Kategori</h6>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('admin_add_category') }}" class="row g-3"
+            <div class="col-md-4">
+                <input type="text" name="name" class="form-control" placeholder="Nama Kategori" required>
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="icon" class="form-control" placeholder="Icon (fa-tag)">
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="description" class="form-control" placeholder="Deskripsi">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-plus"></i> Tambah
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nama</th>
+                        <th>Icon</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cat in categories %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ cat.name }}</td>
+                        <td><i class="{{ cat.icon }}"></i> {{ cat.icon }}</td>
+                        <td>
+                            <span class="badge bg-{{ 'success' if cat.is_active else 'danger' }}">
+                                {{ 'Aktif' if cat.is_active else 'Tidak Aktif' }}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ cat.id }}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <form method="POST" action="{{ url_for('admin_delete_category', id=cat.id) }}"
+                                  style="display:inline-block;" onsubmit="return confirm('Hapus kategori ini?')">
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    
+                    <!-- Edit Modal -->
+                    <div class="modal fade" id="editModal{{ cat.id }}" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="POST" action="{{ url_for('admin_edit_category', id=cat.id) }}">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Edit Kategori</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label>Nama</label>
+                                            <input type="text" name="name" class="form-control" value="{{ cat.name }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label>Icon</label>
+                                            <input type="text" name="icon" class="form-control" value="{{ cat.icon }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label>Deskripsi</label>
+                                            <textarea name="description" class="form-control">{{ cat.description }}</textarea>
+                                        </div>
+                                        <div class="form-check">
+                                            <input type="checkbox" name="is_active" class="form-check-input" 
+                                                   {% if cat.is_active %}checked{% endif %}>
+                                            <label class="form-check-label">Aktif</label>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,650 @@
+{% extends "public/base.html" %}
+
+{% block extra_css %}
+<style>
+    /* ============================================
+       WISATA ALAM - MODERN STYLE
+    ============================================ */
+    
+    /* Hero Section */
+    .wisata-hero {
+        background: linear-gradient(135deg, var(--maroon-dark) 0%, var(--purple) 50%, var(--maroon) 100%);
+        padding: 80px 0 60px;
+        color: white;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        margin-top: -76px;
+        padding-top: 120px;
+    }
+    
+    .wisata-hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(253, 192, 5, 0.05), transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+    
+    .wisata-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -30%;
+        left: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(246, 131, 24, 0.04), transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+    
+    .wisata-hero h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .wisata-hero h1 i {
+        color: var(--yellow);
+        margin-right: 10px;
+    }
+    
+    .wisata-hero .lead {
+        color: rgba(255,255,255,0.8);
+        font-size: 1.2rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .wisata-hero .nav-links {
+        position: relative;
+        z-index: 1;
+        margin-top: 20px;
+    }
+    
+    .wisata-hero .nav-links a {
+        color: rgba(255,255,255,0.7);
+        text-decoration: none;
+        padding: 8px 25px;
+        border-radius: 50px;
+        border: 2px solid rgba(255,255,255,0.15);
+        transition: var(--transition);
+        display: inline-block;
+        font-weight: 500;
+        font-size: 0.95rem;
+    }
+    
+    .wisata-hero .nav-links a:hover {
+        background: rgba(255,255,255,0.1);
+        border-color: var(--yellow);
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    .wisata-hero .nav-links a i {
+        margin-right: 5px;
+    }
+    
+    /* Section Title */
+    .section-title-wisata {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--dark);
+        margin-bottom: 5px;
+    }
+    
+    .section-title-wisata .highlight {
+        color: var(--maroon);
+        position: relative;
+    }
+    
+    .section-title-wisata .highlight::after {
+        content: '';
+        position: absolute;
+        bottom: 2px;
+        left: 0;
+        right: 0;
+        height: 8px;
+        background: rgba(253, 192, 5, 0.3);
+        border-radius: 4px;
+        z-index: -1;
+    }
+    
+    .section-subtitle-wisata {
+        color: #6c757d;
+        font-size: 1.1rem;
+        margin-top: 5px;
+    }
+    
+    /* ===== SECTION 1: LUMBAN MANIK ===== */
+    .section-lumban {
+        padding: 60px 0;
+        background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+    }
+    
+    /* ===== SECTION 2: HUTA RAJA ===== */
+    .section-huta {
+        padding: 60px 0;
+        background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+    }
+    
+    /* ===== CATEGORY BADGE ===== */
+    .category-badge {
+        display: inline-block;
+        padding: 8px 24px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 20px;
+        position: relative;
+    }
+    
+    .category-badge.wisata {
+        background: linear-gradient(135deg, var(--maroon), var(--purple));
+        color: white;
+        box-shadow: 0 4px 15px rgba(85, 0, 0, 0.3);
+    }
+    
+    .category-badge.homestay {
+        background: linear-gradient(135deg, var(--green), var(--green-dark));
+        color: white;
+        box-shadow: 0 4px 15px rgba(10, 150, 2, 0.3);
+    }
+    
+    .category-badge.umkm {
+        background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+        color: white;
+        box-shadow: 0 4px 15px rgba(246, 131, 24, 0.3);
+    }
+    
+    /* ===== CARD DESTINATION - MODERN ===== */
+    .card-destination-modern {
+        background: white;
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        height: 100%;
+        border: 1px solid rgba(0,0,0,0.04);
+        position: relative;
+    }
+    
+    .card-destination-modern:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-hover);
+        border-color: var(--yellow);
+    }
+    
+    .card-destination-modern .card-img {
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+        background: #f0f2f5;
+    }
+    
+    .card-destination-modern .card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: var(--transition);
+    }
+    
+    .card-destination-modern:hover .card-img img {
+        transform: scale(1.08);
+    }
+    
+    .card-destination-modern .card-img .card-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        padding: 5px 16px;
+        border-radius: 50px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    }
+    
+    .card-destination-modern .card-img .card-badge.wisata {
+        background: var(--maroon);
+        color: white;
+    }
+    
+    .card-destination-modern .card-img .card-badge.homestay {
+        background: var(--green);
+        color: white;
+    }
+    
+    .card-destination-modern .card-img .card-badge.umkm {
+        background: var(--orange);
+        color: white;
+    }
+    
+    .card-destination-modern .card-body {
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .card-destination-modern .card-body h5 {
+        font-weight: 700;
+        color: var(--dark);
+        font-size: 1.05rem;
+        margin-bottom: 8px;
+        min-height: 40px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.3;
+    }
+    
+    .card-destination-modern .card-body .card-text {
+        color: #6c757d;
+        font-size: 0.9rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-bottom: 15px;
+        line-height: 1.6;
+        min-height: 60px;
+    }
+    
+    .card-destination-modern .btn-detail-modern {
+        background: transparent;
+        color: var(--maroon);
+        border: 2px solid var(--maroon);
+        border-radius: 50px;
+        padding: 8px 25px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        transition: var(--transition);
+        text-decoration: none;
+        display: inline-block;
+        width: 100%;
+    }
+    
+    .card-destination-modern .btn-detail-modern:hover {
+        background: var(--maroon);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(85, 0, 0, 0.3);
+    }
+    
+    .card-destination-modern .btn-detail-modern i {
+        transition: var(--transition);
+    }
+    
+    .card-destination-modern .btn-detail-modern:hover i {
+        transform: translateX(4px);
+    }
+    
+    /* ===== DIVIDER ===== */
+    .divider-custom {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        margin: 40px 0;
+    }
+    
+    .divider-custom .line {
+        flex: 1;
+        height: 2px;
+        max-width: 100px;
+        background: linear-gradient(90deg, transparent, var(--yellow), transparent);
+    }
+    
+    .divider-custom .icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--yellow);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--dark);
+        font-size: 20px;
+        box-shadow: 0 4px 20px rgba(253, 192, 5, 0.3);
+    }
+    
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 992px) {
+        .wisata-hero h1 {
+            font-size: 2.8rem;
+        }
+        .section-title-wisata {
+            font-size: 2rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .wisata-hero {
+            padding: 100px 0 40px;
+        }
+        .wisata-hero h1 {
+            font-size: 2.2rem;
+        }
+        .wisata-hero .lead {
+            font-size: 1rem;
+        }
+        .section-title-wisata {
+            font-size: 1.6rem;
+        }
+        .card-destination-modern .card-img {
+            height: 160px;
+        }
+        .card-destination-modern .card-body h5 {
+            font-size: 0.95rem;
+            min-height: 30px;
+        }
+        .card-destination-modern .card-body .card-text {
+            font-size: 0.85rem;
+            min-height: 40px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .wisata-hero h1 {
+            font-size: 1.8rem;
+        }
+        .wisata-hero .nav-links a {
+            padding: 6px 18px;
+            font-size: 0.8rem;
+        }
+        .section-title-wisata {
+            font-size: 1.4rem;
+        }
+        .card-destination-modern .card-img {
+            height: 140px;
+        }
+        .card-destination-modern .card-body {
+            padding: 14px 16px 16px;
+        }
+        .card-destination-modern .card-body h5 {
+            font-size: 0.9rem;
+            min-height: auto;
+        }
+        .card-destination-modern .btn-detail-modern {
+            font-size: 0.8rem;
+            padding: 6px 16px;
+        }
+        .divider-custom .icon {
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- ====== HERO SECTION ====== -->
+<section class="wisata-hero">
+    <div class="container text-center">
+        <h1><i class="fas fa-mountain"></i> Wisata Alam</h1>
+        <p class="lead">Jelajahi keindahan alam Desa Lumban Suhi-Suhi Toruan</p>
+        <div class="nav-links">
+            <a href="#lumban-manik"><i class="fas fa-arrow-down"></i> Lumban Manik</a>
+            <a href="#huta-raja"><i class="fas fa-arrow-down"></i> Huta Raja</a>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================================= -->
+<!-- ====== SECTION 1: LUMBAN MANIK ====== -->
+<!-- ========================================================= -->
+<section class="section-lumban" id="lumban-manik">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="section-title-wisata"><span class="highlight">🌿 Lumban</span> Manik</h2>
+            <p class="section-subtitle-wisata">Keindahan Pantai, Homestay, dan UMKM di Dusun Lumban Manik</p>
+        </div>
+
+        <!-- ===== WISATA LUMBAN MANIK ===== -->
+        {% if lumban_manik.wisata %}
+        <div class="mb-5" data-aos="fade-up">
+            <div class="text-center mb-3">
+                <span class="category-badge wisata"><i class="fas fa-map-marked-alt"></i> Wisata</span>
+            </div>
+            <div class="row g-4 justify-content-center">
+                {% for place in lumban_manik.wisata %}
+                <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="card-destination-modern h-100">
+                        <div class="card-img">
+                            {% if place.photo_path %}
+                            <img src="{{ place.photo_path }}" alt="{{ place.name }}">
+                            {% else %}
+                            <div style="width:100%;height:100%;background:linear-gradient(135deg, var(--maroon), var(--purple));display:flex;align-items:center;justify-content:center;">
+                                <i class="fas fa-image" style="font-size:40px;color:rgba(255,255,255,0.2);"></i>
+                            </div>
+                            {% endif %}
+                            <span class="card-badge wisata">{{ place.place_type|title }}</span>
+                        </div>
+                        <div class="card-body">
+                            <h5>{{ place.name }}</h5>
+                            <p class="card-text">{{ place.description|striptags|truncate(80) }}</p>
+                            <a href="{{ url_for('places.place_detail', slug=place.slug) }}" class="btn-detail-modern">
+                                <i class="fas fa-arrow-right"></i> Detail
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ===== HOMESTAY LUMBAN MANIK ===== -->
+        {% if lumban_manik.homestay %}
+        <div class="mb-5" data-aos="fade-up" data-aos-delay="100">
+            <div class="text-center mb-3">
+                <span class="category-badge homestay"><i class="fas fa-bed"></i> Homestay</span>
+            </div>
+            <div class="row g-4 justify-content-center">
+                {% for place in lumban_manik.homestay %}
+                <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="card-destination-modern h-100">
+                        <div class="card-img">
+                            {% if place.photo_path %}
+                            <img src="{{ place.photo_path }}" alt="{{ place.name }}">
+                            {% else %}
+                            <div style="width:100%;height:100%;background:linear-gradient(135deg, var(--green), var(--green-dark));display:flex;align-items:center;justify-content:center;">
+                                <i class="fas fa-bed" style="font-size:40px;color:rgba(255,255,255,0.2);"></i>
+                            </div>
+                            {% endif %}
+                            <span class="card-badge homestay">Homestay</span>
+                        </div>
+                        <div class="card-body">
+                            <h5>{{ place.name }}</h5>
+                            <p class="card-text">{{ place.description|striptags|truncate(80) }}</p>
+                            <a href="{{ url_for('places.place_detail', slug=place.slug) }}" class="btn-detail-modern">
+                                <i class="fas fa-arrow-right"></i> Detail
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ===== UMKM LUMBAN MANIK ===== -->
+        {% if lumban_manik.umkm %}
+        <div data-aos="fade-up" data-aos-delay="200">
+            <div class="text-center mb-3">
+                <span class="category-badge umkm"><i class="fas fa-store"></i> UMKM</span>
+            </div>
+            <div class="row g-4 justify-content-center">
+                {% for place in lumban_manik.umkm %}
+                <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="card-destination-modern h-100">
+                        <div class="card-img">
+                            {% if place.photo_path %}
+                            <img src="{{ place.photo_path }}" alt="{{ place.name }}">
+                            {% else %}
+                            <div style="width:100%;height:100%;background:linear-gradient(135deg, var(--orange), var(--orange-dark));display:flex;align-items:center;justify-content:center;">
+                                <i class="fas fa-store" style="font-size:40px;color:rgba(255,255,255,0.2);"></i>
+                            </div>
+                            {% endif %}
+                            <span class="card-badge umkm">UMKM</span>
+                        </div>
+                        <div class="card-body">
+                            <h5>{{ place.name }}</h5>
+                            <p class="card-text">{{ place.description|striptags|truncate(80) }}</p>
+                            <a href="{{ url_for('places.place_detail', slug=place.slug) }}" class="btn-detail-modern">
+                                <i class="fas fa-arrow-right"></i> Detail
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if not lumban_manik.wisata and not lumban_manik.homestay and not lumban_manik.umkm %}
+        <div class="text-center py-5">
+            <i class="fas fa-info-circle fa-4x text-muted mb-3 d-block"></i>
+            <p class="text-muted">Belum ada data untuk Lumban Manik</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- ====== DIVIDER ====== -->
+<div class="divider-custom">
+    <span class="line"></span>
+    <span class="icon"><i class="fas fa-arrow-down"></i></span>
+    <span class="line"></span>
+</div>
+
+<!-- ========================================================= -->
+<!-- ====== SECTION 2: HUTA RAJA ====== -->
+<!-- ========================================================= -->
+<section class="section-huta" id="huta-raja">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up" data-aos-delay="200">
+            <h2 class="section-title-wisata"><span class="highlight">🏘️ Huta</span> Raja</h2>
+            <p class="section-subtitle-wisata">Pusat Kerajinan Ulos, Homestay, dan UMKM di Dusun Huta Raja</p>
+        </div>
+
+        <!-- ===== WISATA HUTA RAJA ===== -->
+        {% if huta_raja.wisata %}
+        <div class="mb-5" data-aos="fade-up">
+            <div class="text-center mb-3">
+                <span class="category-badge wisata"><i class="fas fa-map-marked-alt"></i> Wisata</span>
+            </div>
+            <div class="row g-4 justify-content-center">
+                {% for place in huta_raja.wisata %}
+                <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="card-destination-modern h-100">
+                        <div class="card-img">
+                            {% if place.photo_path %}
+                            <img src="{{ place.photo_path }}" alt="{{ place.name }}">
+                            {% else %}
+                            <div style="width:100%;height:100%;background:linear-gradient(135deg, var(--maroon), var(--purple));display:flex;align-items:center;justify-content:center;">
+                                <i class="fas fa-image" style="font-size:40px;color:rgba(255,255,255,0.2);"></i>
+                            </div>
+                            {% endif %}
+                            <span class="card-badge wisata">{{ place.place_type|title }}</span>
+                        </div>
+                        <div class="card-body">
+                            <h5>{{ place.name }}</h5>
+                            <p class="card-text">{{ place.description|striptags|truncate(80) }}</p>
+                            <a href="{{ url_for('places.place_detail', slug=place.slug) }}" class="btn-detail-modern">
+                                <i class="fas fa-arrow-right"></i> Detail
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ===== HOMESTAY HUTA RAJA ===== -->
+        {% if huta_raja.homestay %}
+        <div class="mb-5" data-aos="fade-up" data-aos-delay="100">
+            <div class="text-center mb-3">
+                <span class="category-badge homestay"><i class="fas fa-bed"></i> Homestay</span>
+            </div>
+            <div class="row g-4 justify-content-center">
+                {% for place in huta_raja.homestay %}
+                <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="card-destination-modern h-100">
+                        <div class="card-img">
+                            {% if place.photo_path %}
+                            <img src="{{ place.photo_path }}" alt="{{ place.name }}">
+                            {% else %}
+                            <div style="width:100%;height:100%;background:linear-gradient(135deg, var(--green), var(--green-dark));display:flex;align-items:center;justify-content:center;">
+                                <i class="fas fa-bed" style="font-size:40px;color:rgba(255,255,255,0.2);"></i>
+                            </div>
+                            {% endif %}
+                            <span class="card-badge homestay">Homestay</span>
+                        </div>
+                        <div class="card-body">
+                            <h5>{{ place.name }}</h5>
+                            <p class="card-text">{{ place.description|striptags|truncate(80) }}</p>
+                            <a href="{{ url_for('places.place_detail', slug=place.slug) }}" class="btn-detail-modern">
+                                <i class="fas fa-arrow-right"></i> Detail
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- ===== UMKM HUTA RAJA ===== -->
+        {% if huta_raja.umkm %}
+        <div data-aos="fade-up" data-aos-delay="200">
+            <div class="text-center mb-3">
+                <span class="category-badge umkm"><i class="fas fa-store"></i> UMKM</span>
+            </div>
+            <div class="row g-4 justify-content-center">
+                {% for place in huta_raja.umkm %}
+                <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                    <div class="card-destination-modern h-100">
+                        <div class="card-img">
+                            {% if place.photo_path %}
+                            <img src="{{ place.photo_path }}" alt="{{ place.name }}">
+                            {% else %}
+                            <div style="width:100%;height:100%;background:linear-gradient(135deg, var(--orange), var(--orange-dark));display:flex;align-items:center;justify-content:center;">
+                                <i class="fas fa-store" style="font-size:40px;color:rgba(255,255,255,0.2);"></i>
+                            </div>
+                            {% endif %}
+                            <span class="card-badge umkm">UMKM</span>
+                        </div>
+                        <div class="card-body">
+                            <h5>{{ place.name }}</h5>
+                            <p class="card-text">{{ place.description|striptags|truncate(80) }}</p>
+                            <a href="{{ url_for('places.place_detail', slug=place.slug) }}" class="btn-detail-modern">
+                                <i class="fas fa-arrow-right"></i> Detail
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if not huta_raja.wisata and not huta_raja.homestay and not huta_raja.umkm %}
+        <div class="text-center py-5">
+            <i class="fas fa-info-circle fa-4x text-muted mb-3 d-block"></i>
+            <p class="text-muted">Belum ada data untuk Huta Raja</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

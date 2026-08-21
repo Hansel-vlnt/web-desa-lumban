@@ -1,0 +1,13 @@
+Flask>=2.3.3
+Flask-SQLAlchemy>=3.1.1
+Flask-Migrate>=4.0.5
+Flask-Login>=0.6.2
+Flask-WTF>=1.1.1
+Flask-Caching>=2.1.0
+PyMySQL>=1.1.0
+psycopg2-binary>=2.9.9
+python-dotenv>=1.0.0
+Pillow>=10.2.0
+qrcode>=7.4.2
+WTForms>=3.0.1
+Werkzeug>=2.3.7
