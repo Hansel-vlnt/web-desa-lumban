@@ -2,12 +2,16 @@
   "version": 2,
   "rewrites": [
     {
+      "source": "/static/(.*)",
+      "destination": "/app/static/$1"
+    },
+    {
       "source": "/(.*)",
       "destination": "/api/index.py"
     }
   ],
   "functions": {
-    "api/index.py": {
+    "api/**/*.py": {
       "includeFiles": "app/templates/**"
     }
   }
