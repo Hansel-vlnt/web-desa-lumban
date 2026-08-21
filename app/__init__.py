@@ -27,12 +27,14 @@ def create_app(config_class=Config):
         template_dir,
         os.path.join(os.getcwd(), 'templates'),
         os.path.join(os.getcwd(), 'app', 'templates'),
+        os.path.join(base_dir, 'templates'),
         '/var/task/templates',
         '/var/task/app/templates'
     ]
     loaders = [jinja2.FileSystemLoader(d) for d in candidate_dirs if os.path.exists(d)]
     if not loaders:
         loaders = [jinja2.FileSystemLoader(template_dir)]
+    app.jinja_env.loader = jinja2.ChoiceLoader(loaders)
     app.jinja_loader = jinja2.ChoiceLoader(loaders)
     
     db.init_app(app)
@@ -61,6 +63,20 @@ def create_app(config_class=Config):
             return dict(logo_desa=logo_desa, logo_bumdes=logo_bumdes)
         except:
             return dict(logo_desa=None, logo_bumdes=None)
+    
+    # =========================================================
+    # DEBUG ROUTE - /debug-info
+    # =========================================================
+    @app.route('/debug-info')
+    def debug_info():
+        import os
+        return {
+            'cwd': os.getcwd(),
+            'base_dir': base_dir,
+            'existing_template_dirs': [d for d in candidate_dirs if os.path.exists(d)],
+            'files_in_cwd': os.listdir('.'),
+            'files_in_app': os.listdir(base_dir) if os.path.exists(base_dir) else []
+        }
     
     # =========================================================
     # ROUTE LANDING PAGE - /
@@ -93,7 +109,8 @@ def create_app(config_class=Config):
                 ulos_count=ulos_count
             )
         except Exception as e:
-            return f"<h1>Error di landing page</h1><p>{str(e)}</p>", 500
+            import traceback
+            return f"<h1>Error di landing page</h1><pre>{traceback.format_exc()}</pre>", 500
     
     # =========================================================
     # ROUTE LOGIN - /login
