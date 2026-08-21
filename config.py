@@ -8,7 +8,7 @@ class Config:
     DEBUG = os.environ.get('DEBUG', 'False').lower() in ('true', '1', 't')
     
     # ====== DATABASE ======
-    _raw_db_url = os.environ.get('DATABASE_URL') or 'postgresql+psycopg2://postgres:Hanselgant140205@db.yabmjbtboftihfeedpxk.supabase.co:5432/postgres'
+    _raw_db_url = os.environ.get('DATABASE_URL') or 'postgresql+psycopg2://postgres.yabmjbtboftihfeedpxk:Hanselgant140205@aws-0-ap-northeast-2.pooler.supabase.com:6543/postgres'
     if _raw_db_url.startswith('postgres://'):
         _raw_db_url = _raw_db_url.replace('postgres://', 'postgresql+psycopg2://', 1)
     elif _raw_db_url.startswith('postgresql://') and not _raw_db_url.startswith('postgresql+psycopg2://'):
