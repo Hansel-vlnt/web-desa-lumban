@@ -1,18 +1,9 @@
-{
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/index.py",
-      "use": "@vercel/python",
-      "config": {
-        "includeFiles": ["**/*.html"]
-      }
-    },
-    {
-      "src": "app/static/**",
-      "use": "@vercel/static"
+﻿{
+  "functions": {
+    "api/**/*.py": {
+      "includeFiles": "**/*.html"
     }
-  ],
+  },
   "routes": [
     {
       "src": "/static/(.*)",
