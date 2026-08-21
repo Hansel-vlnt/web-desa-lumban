@@ -57,11 +57,14 @@ class Place(db.Model):
                 paragraphs = en_part.split('\n')
                 # Filter paragraf kosong
                 paragraphs = [p.strip() for p in paragraphs if p.strip()]
+                
+                if paragraphs:
+                    paragraphs[0] = f'<strong>Description:</strong><br>{paragraphs[0]}'
+                    
                 # Gabungkan semua paragraf dalam satu div
                 html += f'''
                 <div class="en-wrapper">
                     <div class="en-label">🌐 ENGLISH VERSION</div>
-                    <h4 style="color: var(--maroon-dark); font-size: 1.3rem; margin-bottom: 15px; font-family: 'Poppins', sans-serif;"><i class="fas fa-align-left text-primary"></i> Description</h4>
                     {''.join([f'<p class="text-english">{p}</p>' for p in paragraphs])}
                 </div>
                 '''
