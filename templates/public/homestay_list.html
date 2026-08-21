@@ -1,0 +1,417 @@
+{% extends "public/base.html" %}
+
+{% block extra_css %}
+<style>
+    /* ============================================
+       HOMESTAY - MODERN STYLE
+    ============================================ */
+    
+    /* Hero Section */
+    .homestay-hero {
+        background: linear-gradient(135deg, var(--maroon-dark) 0%, var(--purple) 50%, var(--maroon) 100%);
+        padding: 80px 0 60px;
+        color: white;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        margin-top: -76px;
+        padding-top: 120px;
+    }
+    
+    .homestay-hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(253, 192, 5, 0.05), transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+    
+    .homestay-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -30%;
+        left: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(246, 131, 24, 0.04), transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+    
+    .homestay-hero h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .homestay-hero h1 i {
+        color: var(--yellow);
+        margin-right: 10px;
+    }
+    
+    .homestay-hero .lead {
+        color: rgba(255,255,255,0.8);
+        font-size: 1.2rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .homestay-hero .stats-badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.12);
+        backdrop-filter: blur(10px);
+        padding: 8px 25px;
+        border-radius: 50px;
+        font-size: 0.95rem;
+        color: rgba(255,255,255,0.9);
+        border: 1px solid rgba(255,255,255,0.1);
+        margin-top: 15px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .homestay-hero .stats-badge i {
+        color: var(--yellow);
+        margin-right: 8px;
+    }
+    
+    /* ===== CARD HOMESTAY - MODERN ===== */
+    .section-homestay {
+        padding: 60px 0;
+        background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+    }
+    
+    .card-homestay-modern {
+        background: white;
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        height: 100%;
+        border: 1px solid rgba(0,0,0,0.04);
+        position: relative;
+    }
+    
+    .card-homestay-modern:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-hover);
+        border-color: var(--yellow);
+    }
+    
+    .card-homestay-modern .card-img {
+        height: 220px;
+        overflow: hidden;
+        position: relative;
+        background: #f0f2f5;
+    }
+    
+    .card-homestay-modern .card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: var(--transition);
+    }
+    
+    .card-homestay-modern:hover .card-img img {
+        transform: scale(1.08);
+    }
+    
+    .card-homestay-modern .card-img .card-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: var(--yellow);
+        color: var(--dark);
+        padding: 5px 16px;
+        border-radius: 50px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    }
+    
+    .card-homestay-modern .card-img .photo-count {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        background: rgba(0,0,0,0.7);
+        backdrop-filter: blur(5px);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 50px;
+        font-size: 11px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .card-homestay-modern .card-img .photo-count i {
+        font-size: 12px;
+    }
+    
+    .card-homestay-modern .card-body {
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .card-homestay-modern .card-body h5 {
+        font-weight: 700;
+        color: var(--dark);
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+        min-height: 40px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.3;
+    }
+    
+    .card-homestay-modern .card-body .card-text {
+        color: #6c757d;
+        font-size: 0.9rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-bottom: 15px;
+        line-height: 1.6;
+        min-height: 60px;
+    }
+    
+    .card-homestay-modern .card-body .homestay-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+    
+    .card-homestay-modern .card-body .homestay-info .info-tag {
+        font-size: 0.7rem;
+        padding: 4px 14px;
+        border-radius: 50px;
+        font-weight: 600;
+        background: #f0f2f5;
+        color: #6c757d;
+    }
+    
+    .card-homestay-modern .card-body .homestay-info .info-tag i {
+        margin-right: 4px;
+        font-size: 10px;
+    }
+    
+    .card-homestay-modern .card-body .homestay-info .info-tag.location {
+        background: rgba(26, 82, 118, 0.1);
+        color: var(--maroon);
+    }
+    
+    .card-homestay-modern .card-body .homestay-info .info-tag.whatsapp {
+        background: rgba(10, 150, 2, 0.1);
+        color: var(--green);
+    }
+    
+    .card-homestay-modern .btn-detail-modern {
+        background: linear-gradient(135deg, var(--maroon), var(--purple));
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 10px 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: var(--transition);
+        text-decoration: none;
+        display: inline-block;
+        width: 100%;
+    }
+    
+    .card-homestay-modern .btn-detail-modern:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px rgba(85, 0, 0, 0.3);
+        color: white;
+    }
+    
+    .card-homestay-modern .btn-detail-modern i {
+        transition: var(--transition);
+    }
+    
+    .card-homestay-modern .btn-detail-modern:hover i {
+        transform: translateX(4px);
+    }
+    
+    /* ===== EMPTY STATE ===== */
+    .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+    }
+    
+    .empty-state .empty-icon {
+        font-size: 4rem;
+        color: #dee2e6;
+        margin-bottom: 20px;
+        display: block;
+    }
+    
+    .empty-state h4 {
+        color: var(--dark);
+        font-weight: 600;
+    }
+    
+    .empty-state p {
+        color: #6c757d;
+    }
+    
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 992px) {
+        .homestay-hero h1 {
+            font-size: 2.8rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .homestay-hero {
+            padding: 100px 0 40px;
+        }
+        .homestay-hero h1 {
+            font-size: 2.2rem;
+        }
+        .homestay-hero .lead {
+            font-size: 1rem;
+        }
+        .card-homestay-modern .card-img {
+            height: 180px;
+        }
+        .card-homestay-modern .card-body h5 {
+            font-size: 0.95rem;
+            min-height: 30px;
+        }
+        .card-homestay-modern .card-body .card-text {
+            font-size: 0.85rem;
+            min-height: 40px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .homestay-hero h1 {
+            font-size: 1.8rem;
+        }
+        .homestay-hero .stats-badge {
+            font-size: 0.8rem;
+            padding: 6px 18px;
+        }
+        .card-homestay-modern .card-img {
+            height: 160px;
+        }
+        .card-homestay-modern .card-body {
+            padding: 14px 16px 16px;
+        }
+        .card-homestay-modern .card-body h5 {
+            font-size: 0.9rem;
+            min-height: auto;
+        }
+        .card-homestay-modern .card-body .homestay-info .info-tag {
+            font-size: 0.65rem;
+            padding: 3px 10px;
+        }
+        .card-homestay-modern .btn-detail-modern {
+            font-size: 0.8rem;
+            padding: 8px 16px;
+        }
+        .empty-state {
+            padding: 40px 15px;
+        }
+        .empty-state .empty-icon {
+            font-size: 3rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- ====== HERO SECTION ====== -->
+<section class="homestay-hero">
+    <div class="container text-center">
+        <h1><i class="fas fa-bed"></i> Homestay</h1>
+        <p class="lead">Penginapan nyaman di Desa Lumban Suhi-Suhi Toruan</p>
+        <div class="stats-badge">
+            <i class="fas fa-home"></i> {{ homestays|length }} Homestay Tersedia
+        </div>
+    </div>
+</section>
+
+<!-- ====== LIST HOMESTAY ====== -->
+<section class="section-homestay">
+    <div class="container">
+        {% if homestays %}
+        <div class="row g-4 justify-content-center">
+            {% for homestay in homestays %}
+            <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                <div class="card-homestay-modern h-100">
+                    <!-- ===== FOTO ===== -->
+                    <div class="card-img">
+                        {% if homestay.photo_path %}
+                        <img src="{{ homestay.photo_path }}" alt="{{ homestay.name }}" loading="lazy">
+                        {% else %}
+                        <div style="width:100%;height:100%;background:linear-gradient(135deg, var(--maroon), var(--purple));display:flex;align-items:center;justify-content:center;">
+                            <i class="fas fa-home" style="font-size:50px;color:rgba(255,255,255,0.2);"></i>
+                        </div>
+                        {% endif %}
+                        <span class="card-badge">Homestay</span>
+                        
+                        {% if homestay.photos and homestay.photos|length > 0 %}
+                        <div class="photo-count">
+                            <i class="fas fa-images"></i> {{ homestay.photos|length }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <!-- =================== -->
+                    
+                    <div class="card-body">
+                        <h5>{{ homestay.name }}</h5>
+                        <p class="card-text">{{ homestay.description|striptags|truncate(100) }}</p>
+                        
+                        <!-- Info Tags -->
+                        <div class="homestay-info">
+                            {% if homestay.destination_group %}
+                            <span class="info-tag location">
+                                <i class="fas fa-map-marker-alt"></i> {{ homestay.destination_group|replace('_', ' ')|title }}
+                            </span>
+                            {% endif %}
+                            {% if homestay.whatsapp_number %}
+                            <span class="info-tag whatsapp">
+                                <i class="fab fa-whatsapp"></i> Chat
+                            </span>
+                            {% endif %}
+                            {% if homestay.price_per_night %}
+                            <span class="info-tag">
+                                <i class="fas fa-tag"></i> {{ homestay.price_per_night }}
+                            </span>
+                            {% endif %}
+                        </div>
+                        
+                        <a href="{{ url_for('places.place_detail', slug=homestay.slug) }}" class="btn-detail-modern">
+                            <i class="fas fa-arrow-right"></i> Lihat Detail
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- ===== EMPTY STATE ===== -->
+        <div class="empty-state">
+            <i class="fas fa-bed empty-icon"></i>
+            <h4>Belum Ada Homestay</h4>
+            <p>Homestay akan segera ditambahkan. Silakan cek kembali nanti.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

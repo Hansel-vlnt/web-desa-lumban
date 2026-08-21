@@ -13,12 +13,27 @@ login_manager = LoginManager()
 cache = Cache()
 
 def create_app(config_class=Config):
+    import jinja2
+    
     base_dir = os.path.abspath(os.path.dirname(__file__))
     template_dir = os.path.join(base_dir, 'templates')
     static_dir = os.path.join(base_dir, 'static')
     
     app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
     app.config.from_object(config_class)
+    
+    # Configure multiple template search paths for Vercel Serverless
+    candidate_dirs = [
+        template_dir,
+        os.path.join(os.getcwd(), 'templates'),
+        os.path.join(os.getcwd(), 'app', 'templates'),
+        '/var/task/templates',
+        '/var/task/app/templates'
+    ]
+    loaders = [jinja2.FileSystemLoader(d) for d in candidate_dirs if os.path.exists(d)]
+    if not loaders:
+        loaders = [jinja2.FileSystemLoader(template_dir)]
+    app.jinja_loader = jinja2.ChoiceLoader(loaders)
     
     db.init_app(app)
     migrate.init_app(app, db)

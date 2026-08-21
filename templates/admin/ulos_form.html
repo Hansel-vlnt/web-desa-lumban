@@ -1,0 +1,191 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>
+        <i class="fas fa-{{ 'plus' if not ulos else 'edit' }} text-success"></i>
+        {{ 'Tambah' if not ulos else 'Edit' }} ULOS
+    </h2>
+    <a href="{{ url_for('admin_ulos') }}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Kembali
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST" enctype="multipart/form-data"
+              action="{{ url_for('admin_add_ulos') if not ulos else url_for('admin_edit_ulos', id=ulos.id) }}">
+            
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nama ULOS *</label>
+                        <input type="text" name="name" class="form-control" 
+                               value="{{ ulos.name if ulos else '' }}" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">QR Code</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" 
+                                   value="{{ ulos.qr_code if ulos else 'Auto Generate' }}" disabled>
+                            {% if ulos %}
+                            <a href="{{ url_for('static', filename='qr_codes/ulos_' ~ ulos.id ~ '.png') }}" 
+                               target="_blank" class="btn btn-info">
+                                <i class="fas fa-qrcode"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                        <small class="text-muted">QR Code akan dibuat otomatis</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== DESKRIPSI MOTIF ===== -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Deskripsi Motif</label>
+                <!-- ===== PERBAIKI: name="motif_description_text" ===== -->
+                <textarea name="motif_description_text" class="form-control" rows="4" 
+                          placeholder="Tulis deskripsi motif di sini...">{{ ulos.motif_description_text or ulos.motif_description or '' if ulos else '' }}</textarea>
+                <small class="text-muted">Gunakan <strong>[EN]</strong> untuk memisahkan bahasa Indonesia dan Inggris.</small>
+            </div>
+
+            <!-- ===== FILOSOFI / MAKNA ===== -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Filosofi / Makna</label>
+                <!-- ===== PERBAIKI: name="meaning_text" ===== -->
+                <textarea name="meaning_text" class="form-control" rows="5" 
+                          placeholder="Tulis filosofi dan makna di sini...">{{ ulos.meaning_text or ulos.meaning or '' if ulos else '' }}</textarea>
+                <small class="text-muted">Gunakan <strong>[EN]</strong> untuk memisahkan bahasa Indonesia dan Inggris.</small>
+            </div>
+
+            <!-- ===== KEGUNAAN ===== -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Kegunaan</label>
+                <!-- ===== PERBAIKI: name="function_text" ===== -->
+                <textarea name="function_text" class="form-control" rows="4" 
+                          placeholder="Tulis kegunaan ULOS di sini...">{{ ulos.function_text or ulos.function or '' if ulos else '' }}</textarea>
+                <small class="text-muted">Gunakan <strong>[EN]</strong> untuk memisahkan bahasa Indonesia dan Inggris.</small>
+            </div>
+
+            <!-- ===== FOTO ULOS ===== -->
+            <div class="card bg-light mb-4">
+                <div class="card-header bg-primary text-white">
+                    <i class="fas fa-image"></i> Foto ULOS
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Cara Mengelola Foto:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li>📤 <strong>Tambah foto:</strong> Upload file baru → foto akan <strong>DITAMBAHKAN</strong></li>
+                            <li>🗑️ <strong>Hapus foto:</strong> Centang checkbox lalu klik <strong>Update</strong></li>
+                            <li>💡 <strong>Foto lama:</strong> Akan tetap ada sampai Anda hapus sendiri</li>
+                            <li>✅ <strong>Update data:</strong> Tetap berfungsi meskipun tidak upload foto</li>
+                        </ul>
+                    </div>
+                    <input type="file" name="photos" class="form-control" multiple accept="image/*" id="photoInput">
+                    <div id="photoCount" class="mt-2 text-muted">Jumlah file dipilih: 0</div>
+                    
+                    {% if ulos and ulos.photos %}
+                    <div class="row mt-3">
+                        {% for photo in ulos.photos %}
+                        <div class="col-md-3 mb-3">
+                            <div class="card">
+                                <img src="{{ photo.photo_path }}" style="height: 150px; object-fit: cover;">
+                                <div class="card-body p-2">
+                                    {% if photo.is_primary %}
+                                    <span class="badge bg-warning text-dark">Utama</span>
+                                    {% endif %}
+                                    <div class="form-check">
+                                        <input type="checkbox" name="remove_photos" value="{{ photo.id }}" class="form-check-input" id="remove_{{ photo.id }}">
+                                        <label class="form-check-label text-danger small" for="remove_{{ photo.id }}">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <small class="text-muted">Centang checkbox pada foto yang ingin dihapus, lalu klik Update</small>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- ===== AUDIO 3 BAHASA ===== -->
+            <div class="card bg-light mb-4">
+                <div class="card-header bg-success text-white">
+                    <i class="fas fa-microphone"></i> Audio Narasi (3 Bahasa)
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="fw-bold">🇮🇩 Bahasa Indonesia</label>
+                            <input type="file" name="audio_id" class="form-control" 
+                                   accept=".mp3,.m4a,.mp4,.wav,.ogg,.mpeg,.aac,.flac">
+                            {% if ulos and ulos.audio_indonesia %}
+                            <div class="mt-2">
+                                <audio controls style="width: 100%;">
+                                    <source src="{{ ulos.audio_indonesia }}" type="audio/mpeg">
+                                </audio>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="fw-bold">🇬🇧 English</label>
+                            <input type="file" name="audio_en" class="form-control" 
+                                   accept=".mp3,.m4a,.mp4,.wav,.ogg,.mpeg,.aac,.flac">
+                            {% if ulos and ulos.audio_english %}
+                            <div class="mt-2">
+                                <audio controls style="width: 100%;">
+                                    <source src="{{ ulos.audio_english }}" type="audio/mpeg">
+                                </audio>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="fw-bold">🦅 Bahasa Batak</label>
+                            <input type="file" name="audio_batak" class="form-control" 
+                                   accept=".mp3,.m4a,.mp4,.wav,.ogg,.mpeg,.aac,.flac">
+                            {% if ulos and ulos.audio_batak %}
+                            <div class="mt-2">
+                                <audio controls style="width: 100%;">
+                                    <source src="{{ ulos.audio_batak }}" type="audio/mpeg">
+                                </audio>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <div class="form-check form-switch">
+                    <input type="checkbox" name="is_active" class="form-check-input" 
+                           {% if not ulos or ulos.is_active %}checked{% endif %}>
+                    <label class="form-check-label fw-bold">Aktif</label>
+                    <small class="text-muted d-block">Jika tidak aktif, ULOS tidak akan ditampilkan di website</small>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('admin_ulos') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i> {{ 'Update' if ulos else 'Simpan' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('photoInput').addEventListener('change', function() {
+        const count = this.files.length;
+        document.getElementById('photoCount').textContent = 'Jumlah file dipilih: ' + count;
+    });
+</script>
+{% endblock %}

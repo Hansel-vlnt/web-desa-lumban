@@ -1,0 +1,151 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-chart-pie text-primary"></i> Dashboard</h2>
+    <span class="badge bg-primary">👋 Selamat datang, {{ current_user.full_name or current_user.username }}</span>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="text-muted">Tempat Wisata</h6>
+                    <h2 class="mb-0">{{ total_places }}</h2>
+                </div>
+                <div class="stat-icon bg-primary bg-opacity-10 text-primary">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+            </div>
+            <a href="{{ url_for('admin_places') }}" class="btn btn-sm btn-outline-primary mt-2">Kelola</a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="text-muted">Jenis ULOS</h6>
+                    <h2 class="mb-0">{{ total_ulos }}</h2>
+                </div>
+                <div class="stat-icon bg-success bg-opacity-10 text-success">
+                    <i class="fas fa-umbrella"></i>
+                </div>
+            </div>
+            <a href="{{ url_for('admin_ulos') }}" class="btn btn-sm btn-outline-success mt-2">Kelola</a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="text-muted">Galeri</h6>
+                    <h2 class="mb-0">{{ total_gallery }}</h2>
+                </div>
+                <div class="stat-icon bg-info bg-opacity-10 text-info">
+                    <i class="fas fa-images"></i>
+                </div>
+            </div>
+            <a href="{{ url_for('admin_gallery') }}" class="btn btn-sm btn-outline-info mt-2">Kelola</a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="text-muted">Kategori</h6>
+                    <h2 class="mb-0">{{ total_categories }}</h2>
+                </div>
+                <div class="stat-icon bg-warning bg-opacity-10 text-warning">
+                    <i class="fas fa-tags"></i>
+                </div>
+            </div>
+            <a href="{{ url_for('admin_categories') }}" class="btn btn-sm btn-outline-warning mt-2">Kelola</a>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-white">
+                <h6 class="mb-0"><i class="fas fa-clock text-primary"></i> Review Terbaru</h6>
+            </div>
+            <div class="card-body">
+                {% if recent_reviews %}
+                    {% for review in recent_reviews[:5] %}
+                    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                        <div>
+                            <strong>{{ review.reviewer_name }}</strong>
+                            <div>
+                                {% for i in range(review.rating) %}
+                                    <i class="fas fa-star text-warning small"></i>
+                                {% endfor %}
+                            </div>
+                            <small class="text-muted">{{ review.comment[:50] if review.comment else 'Tidak ada komentar' }}{% if review.comment and review.comment|length > 50 %}...{% endif %}</small>
+                        </div>
+                        <small class="text-muted">{{ review.created_at.strftime('%d/%m/%Y') }}</small>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted text-center py-3">Belum ada review</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-white">
+                <h6 class="mb-0"><i class="fas fa-plus-circle text-success"></i> Wisata Baru</h6>
+            </div>
+            <div class="card-body">
+                {% if recent_places %}
+                    {% for place in recent_places[:5] %}
+                    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                        <div>
+                            <strong>{{ place.name }}</strong>
+                            <br>
+                            <small class="text-muted">{{ place.category.name if place.category else 'Tidak berkategori' }}</small>
+                        </div>
+                        <span class="badge bg-{{ 'success' if place.is_active else 'secondary' }}">
+                            {{ 'Aktif' if place.is_active else 'Tidak Aktif' }}
+                        </span>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted text-center py-3">Belum ada tempat wisata</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-white">
+                <h6 class="mb-0"><i class="fas fa-cog text-primary"></i> Quick Actions</h6>
+            </div>
+            <div class="card-body">
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="{{ url_for('admin_add_place') }}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Tambah Wisata
+                    </a>
+                    <a href="{{ url_for('admin_add_ulos') }}" class="btn btn-success">
+                        <i class="fas fa-plus"></i> Tambah ULOS
+                    </a>
+                    <a href="{{ url_for('admin_gallery') }}" class="btn btn-info">
+                        <i class="fas fa-images"></i> Kelola Galeri
+                    </a>
+                    <a href="{{ url_for('admin_categories') }}" class="btn btn-warning">
+                        <i class="fas fa-tags"></i> Kelola Kategori
+                    </a>
+                    <a href="{{ url_for('admin_village') }}" class="btn btn-secondary">
+                        <i class="fas fa-edit"></i> Edit Info Desa
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

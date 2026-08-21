@@ -1,0 +1,401 @@
+{% extends "public/base.html" %}
+
+{% block extra_css %}
+<style>
+    /* ============================================
+       UMKM - MODERN STYLE
+    ============================================ */
+    
+    /* Hero Section */
+    .umkm-hero {
+        background: linear-gradient(135deg, var(--maroon-dark) 0%, var(--purple) 50%, var(--maroon) 100%);
+        padding: 80px 0 60px;
+        color: white;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        margin-top: -76px;
+        padding-top: 120px;
+    }
+    
+    .umkm-hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(253, 192, 5, 0.05), transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+    
+    .umkm-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -30%;
+        left: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(246, 131, 24, 0.04), transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+    
+    .umkm-hero h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .umkm-hero h1 i {
+        color: var(--yellow);
+        margin-right: 10px;
+    }
+    
+    .umkm-hero .lead {
+        color: rgba(255,255,255,0.8);
+        font-size: 1.2rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .umkm-hero .stats-badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.12);
+        backdrop-filter: blur(10px);
+        padding: 8px 25px;
+        border-radius: 50px;
+        font-size: 0.95rem;
+        color: rgba(255,255,255,0.9);
+        border: 1px solid rgba(255,255,255,0.1);
+        margin-top: 15px;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .umkm-hero .stats-badge i {
+        color: var(--yellow);
+        margin-right: 8px;
+    }
+    
+    /* ===== CARD UMKM - MODERN ===== */
+    .section-umkm {
+        padding: 60px 0;
+        background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+    }
+    
+    .card-umkm-modern {
+        background: white;
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        height: 100%;
+        border: 1px solid rgba(0,0,0,0.04);
+        position: relative;
+    }
+    
+    .card-umkm-modern:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-hover);
+        border-color: var(--orange);
+    }
+    
+    .card-umkm-modern .card-img {
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+        background: #f0f2f5;
+    }
+    
+    .card-umkm-modern .card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: var(--transition);
+    }
+    
+    .card-umkm-modern:hover .card-img img {
+        transform: scale(1.08);
+    }
+    
+    .card-umkm-modern .card-img .card-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: var(--orange);
+        color: white;
+        padding: 5px 16px;
+        border-radius: 50px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    }
+    
+    .card-umkm-modern .card-img .photo-count {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        background: rgba(0,0,0,0.7);
+        backdrop-filter: blur(5px);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 50px;
+        font-size: 11px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .card-umkm-modern .card-body {
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .card-umkm-modern .card-body h5 {
+        font-weight: 700;
+        color: var(--dark);
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+        min-height: 40px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.3;
+    }
+    
+    .card-umkm-modern .card-body .card-text {
+        color: #6c757d;
+        font-size: 0.9rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-bottom: 15px;
+        line-height: 1.6;
+        min-height: 60px;
+    }
+    
+    .card-umkm-modern .card-body .umkm-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+    
+    .card-umkm-modern .card-body .umkm-info .info-tag {
+        font-size: 0.7rem;
+        padding: 4px 14px;
+        border-radius: 50px;
+        font-weight: 600;
+        background: #f0f2f5;
+        color: #6c757d;
+    }
+    
+    .card-umkm-modern .card-body .umkm-info .info-tag i {
+        margin-right: 4px;
+        font-size: 10px;
+    }
+    
+    .card-umkm-modern .card-body .umkm-info .info-tag.location {
+        background: rgba(26, 82, 118, 0.1);
+        color: var(--maroon);
+    }
+    
+    .card-umkm-modern .card-body .umkm-info .info-tag.whatsapp {
+        background: rgba(10, 150, 2, 0.1);
+        color: var(--green);
+    }
+    
+    .card-umkm-modern .btn-detail-modern {
+        background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 10px 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: var(--transition);
+        text-decoration: none;
+        display: inline-block;
+        width: 100%;
+    }
+    
+    .card-umkm-modern .btn-detail-modern:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px rgba(246, 131, 24, 0.3);
+        color: white;
+    }
+    
+    .card-umkm-modern .btn-detail-modern i {
+        transition: var(--transition);
+    }
+    
+    .card-umkm-modern .btn-detail-modern:hover i {
+        transform: translateX(4px);
+    }
+    
+    /* ===== EMPTY STATE ===== */
+    .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+    }
+    
+    .empty-state .empty-icon {
+        font-size: 4rem;
+        color: #dee2e6;
+        margin-bottom: 20px;
+        display: block;
+    }
+    
+    .empty-state h4 {
+        color: var(--dark);
+        font-weight: 600;
+    }
+    
+    .empty-state p {
+        color: #6c757d;
+    }
+    
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 992px) {
+        .umkm-hero h1 {
+            font-size: 2.8rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .umkm-hero {
+            padding: 100px 0 40px;
+        }
+        .umkm-hero h1 {
+            font-size: 2.2rem;
+        }
+        .umkm-hero .lead {
+            font-size: 1rem;
+        }
+        .card-umkm-modern .card-img {
+            height: 160px;
+        }
+        .card-umkm-modern .card-body h5 {
+            font-size: 0.95rem;
+            min-height: 30px;
+        }
+        .card-umkm-modern .card-body .card-text {
+            font-size: 0.85rem;
+            min-height: 40px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .umkm-hero h1 {
+            font-size: 1.8rem;
+        }
+        .umkm-hero .stats-badge {
+            font-size: 0.8rem;
+            padding: 6px 18px;
+        }
+        .card-umkm-modern .card-img {
+            height: 140px;
+        }
+        .card-umkm-modern .card-body {
+            padding: 14px 16px 16px;
+        }
+        .card-umkm-modern .card-body h5 {
+            font-size: 0.9rem;
+            min-height: auto;
+        }
+        .card-umkm-modern .btn-detail-modern {
+            font-size: 0.8rem;
+            padding: 8px 16px;
+        }
+        .empty-state {
+            padding: 40px 15px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- ====== HERO SECTION ====== -->
+<section class="umkm-hero">
+    <div class="container text-center">
+        <h1><i class="fas fa-store"></i> UMKM</h1>
+        <p class="lead">Usaha Mikro Kecil Menengah di Desa Lumban Suhi-Suhi Toruan</p>
+        <div class="stats-badge">
+            <i class="fas fa-store"></i> {{ umkms|length }} UMKM Tersedia
+        </div>
+    </div>
+</section>
+
+<!-- ====== LIST UMKM ====== -->
+<section class="section-umkm">
+    <div class="container">
+        {% if umkms %}
+        <div class="row g-4 justify-content-center">
+            {% for umkm in umkms %}
+            <div class="col-lg-4 col-md-6 col-12" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                <div class="card-umkm-modern h-100">
+                    <!-- ===== FOTO ===== -->
+                    <div class="card-img">
+                        {% if umkm.photo_path %}
+                        <img src="{{ umkm.photo_path }}" alt="{{ umkm.name }}" loading="lazy">
+                        {% else %}
+                        <div style="width:100%;height:100%;background:linear-gradient(135deg, var(--orange), var(--orange-dark));display:flex;align-items:center;justify-content:center;">
+                            <i class="fas fa-store" style="font-size:50px;color:rgba(255,255,255,0.2);"></i>
+                        </div>
+                        {% endif %}
+                        <span class="card-badge">UMKM</span>
+                        
+                        {% if umkm.photos and umkm.photos|length > 0 %}
+                        <div class="photo-count">
+                            <i class="fas fa-images"></i> {{ umkm.photos|length }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <!-- =================== -->
+                    
+                    <div class="card-body">
+                        <h5>{{ umkm.name }}</h5>
+                        <p class="card-text">{{ umkm.description|striptags|truncate(100) }}</p>
+                        
+                        <!-- Info Tags -->
+                        <div class="umkm-info">
+                            {% if umkm.destination_group %}
+                            <span class="info-tag location">
+                                <i class="fas fa-map-marker-alt"></i> {{ umkm.destination_group|replace('_', ' ')|title }}
+                            </span>
+                            {% endif %}
+                            {% if umkm.whatsapp_number %}
+                            <span class="info-tag whatsapp">
+                                <i class="fab fa-whatsapp"></i> Chat
+                            </span>
+                            {% endif %}
+                        </div>
+                        
+                        <a href="{{ url_for('places.place_detail', slug=umkm.slug) }}" class="btn-detail-modern">
+                            <i class="fas fa-arrow-right"></i> Lihat Detail
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- ===== EMPTY STATE ===== -->
+        <div class="empty-state">
+            <i class="fas fa-store empty-icon"></i>
+            <h4>Belum Ada UMKM</h4>
+            <p>UMKM akan segera ditambahkan. Silakan cek kembali nanti.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

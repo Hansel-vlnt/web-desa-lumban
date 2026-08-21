@@ -1,0 +1,467 @@
+{% extends "public/base.html" %}
+
+{% block extra_css %}
+<style>
+    /* ============================================
+       HERO ULOS
+    ============================================ */
+    .hero-ulos {
+        background: linear-gradient(135deg, var(--purple-dark) 0%, var(--purple) 50%, var(--maroon) 100%);
+        padding: 120px 0 70px;
+        color: white;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        margin-top: -76px;
+        min-height: 280px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .hero-ulos h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 10px;
+    }
+    
+    .hero-ulos .lead {
+        color: rgba(255,255,255,0.85);
+        font-size: 1.2rem;
+    }
+    
+    /* ============================================
+       GALLERY GRID
+    ============================================ */
+    .gallery-grid-ulos {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+    }
+    
+    .gallery-grid-ulos .gallery-item-ulos {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 3px solid #e9ecef;
+        transition: all 0.3s ease;
+        background: white;
+        aspect-ratio: 1 / 1;
+        position: relative;
+    }
+    
+    .gallery-grid-ulos .gallery-item-ulos:hover {
+        transform: scale(1.05);
+        border-color: var(--yellow);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    }
+    
+    .gallery-grid-ulos .gallery-item-ulos img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #f8f9fa;
+        padding: 10px;
+    }
+    
+    .gallery-grid-ulos .gallery-item-ulos .badge-utama {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: var(--yellow);
+        color: var(--dark);
+        padding: 4px 12px;
+        border-radius: 50px;
+        font-size: 10px;
+        font-weight: 700;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    
+    /* ============================================
+       INFO CARD - ULOS
+    ============================================ */
+    .info-card-detail {
+        background: white;
+        border-radius: var(--radius);
+        padding: 25px;
+        box-shadow: var(--shadow);
+        height: 100%;
+        border-left: 5px solid var(--yellow);
+        transition: var(--transition);
+        overflow: hidden;
+        word-wrap: break-word;
+    }
+    
+    .info-card-detail:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-hover);
+    }
+    
+    .info-card-detail h5 {
+        color: var(--maroon);
+        font-weight: 600;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+        border-bottom: 2px solid var(--yellow);
+        padding-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .info-card-detail h5 i {
+        color: var(--yellow);
+        font-size: 1.2rem;
+    }
+    
+    /* ===== BAHASA INDONESIA ===== */
+    .info-card-detail .text-indonesia {
+        font-family: 'Poppins', 'Segoe UI', sans-serif;
+        font-size: 1rem;
+        line-height: 1.8;
+        color: #1a1a2e;
+        margin-bottom: 10px;
+    }
+    
+    /* ===== BAHASA INGGRIS (RAPI & BERSATU) ===== */
+    .info-card-detail .en-wrapper {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 16px 20px;
+        margin-top: 15px;
+        border-left: 4px solid var(--yellow);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    
+    .info-card-detail .en-wrapper .en-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #6c757d;
+        margin-bottom: 8px;
+        padding-bottom: 6px;
+        border-bottom: 2px solid rgba(253, 192, 5, 0.15);
+    }
+    
+    .info-card-detail .text-english {
+        font-family: 'Georgia', 'Times New Roman', serif;
+        font-size: 0.95rem;
+        line-height: 1.8;
+        color: #3a3a4a;
+        font-style: italic;
+        margin-bottom: 4px;
+        padding-left: 12px;
+        border-left: 3px solid rgba(253, 192, 5, 0.2);
+    }
+    
+    .info-card-detail .text-english:last-child {
+        margin-bottom: 0;
+    }
+    
+    .info-card-detail ul {
+        padding-left: 20px;
+        list-style: disc;
+    }
+    
+    .info-card-detail ul li {
+        margin-bottom: 5px;
+        line-height: 1.8;
+    }
+    
+    .info-card-detail p {
+        margin-bottom: 10px;
+        line-height: 1.8;
+    }
+    
+    /* ============================================
+       AUDIO SECTION
+    ============================================ */
+    .audio-section {
+        background: linear-gradient(135deg, var(--purple-dark) 0%, var(--maroon) 100%);
+        border-radius: var(--radius);
+        padding: 45px;
+        color: white;
+        border: 1px solid rgba(253, 192, 5, 0.2);
+    }
+    
+    .audio-section h2 {
+        font-weight: 700;
+    }
+    
+    .audio-section h2 i {
+        color: var(--yellow);
+    }
+    
+    .audio-section audio {
+        width: 100%;
+        border-radius: 10px;
+        background: rgba(255,255,255,0.1);
+        height: 50px;
+    }
+    
+    .audio-section audio::-webkit-media-controls-panel {
+        background: rgba(255,255,255,0.05);
+    }
+    
+    .btn-lang {
+        padding: 12px 30px;
+        border-radius: 50px;
+        border: 2px solid rgba(255,255,255,0.25);
+        background: transparent;
+        color: white;
+        font-weight: 600;
+        transition: var(--transition);
+        margin: 5px;
+        font-size: 0.9rem;
+    }
+    
+    .btn-lang:hover {
+        background: rgba(255,255,255,0.1);
+        border-color: var(--yellow);
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    .btn-lang.active {
+        background: var(--yellow);
+        border-color: var(--yellow);
+        color: var(--dark);
+        box-shadow: 0 4px 20px rgba(253, 192, 5, 0.3);
+    }
+    
+    .audio-section .text-center small {
+        font-size: 0.85rem;
+        opacity: 0.7;
+    }
+    
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 768px) {
+        .hero-ulos {
+            padding: 100px 0 50px;
+            min-height: 220px;
+        }
+        .hero-ulos h1 {
+            font-size: 2.2rem;
+        }
+        .hero-ulos .lead {
+            font-size: 1rem;
+        }
+        .gallery-grid-ulos {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        .info-card-detail {
+            padding: 18px;
+        }
+        .info-card-detail h5 {
+            font-size: 1rem;
+        }
+        .audio-section {
+            padding: 30px 20px;
+        }
+        .btn-lang {
+            padding: 10px 20px;
+            font-size: 0.8rem;
+        }
+        .info-card-detail .en-wrapper {
+            padding: 12px 16px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .hero-ulos {
+            padding: 80px 0 40px;
+            min-height: 180px;
+        }
+        .hero-ulos h1 {
+            font-size: 1.6rem;
+        }
+        .gallery-grid-ulos {
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 8px;
+        }
+        .info-card-detail {
+            padding: 15px;
+        }
+        .info-card-detail h5 {
+            font-size: 0.9rem;
+        }
+        .info-card-detail .text-indonesia {
+            font-size: 0.9rem;
+        }
+        .info-card-detail .text-english {
+            font-size: 0.85rem;
+        }
+        .audio-section {
+            padding: 20px 15px;
+        }
+        .btn-lang {
+            padding: 8px 16px;
+            font-size: 0.75rem;
+            margin: 3px;
+        }
+        .info-card-detail .en-wrapper {
+            padding: 10px 12px;
+        }
+        .info-card-detail .en-wrapper .en-label {
+            font-size: 0.6rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- ====== HERO SECTION ====== -->
+<section class="hero-ulos">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold">{{ ulos.name }}</h1>
+        <p class="lead">Warisan Budaya Batak Toba dari Kampung Ulos</p>
+    </div>
+</section>
+
+<div class="container" style="margin-top: -50px;">
+
+    <!-- ===== GALERI FOTO ===== -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-center mb-4" style="color: var(--maroon);">
+                <i class="fas fa-images" style="color: var(--yellow);"></i> Galeri {{ ulos.name }}
+            </h2>
+            <div class="gallery-grid-ulos">
+                {% if photos %}
+                    {% for photo in photos %}
+                    <div class="gallery-item-ulos">
+                        <img src="{{ photo.photo_path }}" alt="{{ photo.caption or ulos.name }}" loading="lazy">
+                        {% if photo.is_primary %}
+                        <span class="badge-utama">⭐ Utama</span>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                <div class="col-12 text-center py-5">
+                    <i class="fas fa-image fa-3x text-muted mb-3 d-block"></i>
+                    <p class="text-muted">Belum ada foto</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== INFO ULOS ===== -->
+    <div class="row g-4 mb-5 justify-content-center">
+        <div class="col-md-4">
+            <div class="info-card-detail">
+                <h5><i class="fas fa-book-open"></i> Filosofi</h5>
+                <div class="ulos-description">
+                    {{ ulos.get_meaning_html()|safe }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="info-card-detail">
+                <h5><i class="fas fa-palette"></i> Motif</h5>
+                <div class="ulos-description">
+                    {{ ulos.get_motif_html()|safe }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="info-card-detail">
+                <h5><i class="fas fa-hand-sparkles"></i> Kegunaan</h5>
+                <div class="ulos-description">
+                    {{ ulos.get_function_html()|safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== AUDIO PLAYER ===== -->
+    <div class="audio-section mb-5">
+        <h2 class="text-center mb-4">
+            <i class="fas fa-headphones" style="color: var(--yellow);"></i> 
+            Dengarkan Cerita {{ ulos.name }}
+        </h2>
+        <div class="text-center mb-3">
+            <button class="btn-lang active" id="btnId" onclick="switchAudio('id')">
+                🇮🇩 Bahasa Indonesia
+            </button>
+            <button class="btn-lang" id="btnEn" onclick="switchAudio('en')">
+                🇬🇧 English
+            </button>
+            {% if ulos.audio_batak %}
+            <button class="btn-lang" id="btnBatak" onclick="switchAudio('batak')">
+                🦅 Bahasa Batak
+            </button>
+            {% endif %}
+        </div>
+        <audio id="audioPlayer" controls style="width: 100%; border-radius: 10px;">
+            <source id="audioSource" src="{{ url_for('ulos.play_audio', ulos_id=ulos.id, language='id') }}" type="audio/mpeg">
+            Browser Anda tidak mendukung audio.
+        </audio>
+        <div class="text-center mt-3">
+            <small class="text-light opacity-75">
+                <i class="fas fa-microphone" style="color: var(--yellow);"></i> 
+                Narasi oleh Pengrajin Kampung Ulos
+            </small>
+        </div>
+    </div>
+
+    <!-- ===== BACK BUTTON ===== -->
+    <div class="text-center pb-5">
+        <a href="{{ url_for('public.index') }}" class="btn btn-secondary rounded-pill px-4">
+            <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+        </a>
+        <a href="{{ url_for('ulos.ulos_gallery') }}" class="btn btn-maroon rounded-pill px-4">
+            <i class="fas fa-grid"></i> Galeri ULOS
+        </a>
+    </div>
+</div>
+
+<script>
+    const audioPlayer = document.getElementById('audioPlayer');
+    const audioSource = document.getElementById('audioSource');
+    let currentLang = 'id';
+    
+    function switchAudio(lang) {
+        currentLang = lang;
+        
+        // Update active button
+        document.querySelectorAll('.btn-lang').forEach(b => b.classList.remove('active'));
+        const btnMap = {
+            'id': 'btnId',
+            'en': 'btnEn',
+            'batak': 'btnBatak'
+        };
+        const activeBtn = document.getElementById(btnMap[lang]);
+        if (activeBtn) activeBtn.classList.add('active');
+        
+        // Update audio
+        const url = "{{ url_for('ulos.play_audio', ulos_id=ulos.id, language='') }}" + lang;
+        audioSource.src = url;
+        audioPlayer.load();
+        
+        // ===== AUTO PLAY =====
+        audioPlayer.play().catch(function(error) {
+            console.log('Auto-play ditolak oleh browser:', error);
+            const small = document.querySelector('.audio-section .text-center small');
+            if (small) {
+                small.innerHTML = '🔊 Klik tombol play untuk mendengarkan narasi';
+            }
+        });
+    }
+    
+    // ===== AUTO PLAY SAAT HALAMAN DIMUAT =====
+    document.addEventListener('DOMContentLoaded', function() {
+        audioPlayer.play().catch(function(error) {
+            console.log('Auto-play awal ditolak:', error);
+            const small = document.querySelector('.audio-section .text-center small');
+            if (small) {
+                small.innerHTML = '🔊 Klik tombol play untuk mendengarkan narasi';
+            }
+        });
+    });
+</script>
+{% endblock %}

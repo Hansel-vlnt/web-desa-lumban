@@ -1,0 +1,122 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>
+        <i class="fas fa-umbrella text-success"></i> 
+        Galeri ULOS
+        <span class="badge bg-success ms-2">{{ ulos_list|length }}</span>
+    </h2>
+    <a href="{{ url_for('admin_add_ulos') }}" class="btn btn-success btn-lg">
+        <i class="fas fa-plus-circle"></i> Tambah ULOS
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">#</th>
+                        <th>Nama ULOS</th>
+                        <th>QR Code</th>
+                        <th style="min-width: 200px;">Audio</th>
+                        <th>Status</th>
+                        <th style="width: 180px;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ulos in ulos_list %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                {% if ulos.photos %}
+                                <img src="{{ ulos.photos[0].photo_path }}" alt="{{ ulos.name }}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px; margin-right: 12px;">
+                                {% else %}
+                                <div style="width: 40px; height: 40px; border-radius: 8px; background: #e9ecef; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                    <i class="fas fa-umbrella text-muted"></i>
+                                </div>
+                                {% endif %}
+                                <strong>{{ ulos.name }}</strong>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge bg-dark">{{ ulos.qr_code }}</span>
+                        </td>
+                        <td>
+                            <!-- ===== STATUS AUDIO PER BAHASA ===== -->
+                            <div class="d-flex gap-1 flex-wrap">
+                                {% if ulos.audio_indonesia %}
+                                <span class="badge bg-success" title="Audio Indonesia tersedia">
+                                    <i class="fas fa-check-circle"></i> 🇮🇩 ID
+                                </span>
+                                {% else %}
+                                <span class="badge bg-secondary" title="Audio Indonesia belum tersedia">
+                                    <i class="fas fa-times-circle"></i> 🇮🇩 ID
+                                </span>
+                                {% endif %}
+                                
+                                {% if ulos.audio_english %}
+                                <span class="badge bg-success" title="Audio Inggris tersedia">
+                                    <i class="fas fa-check-circle"></i> 🇬🇧 EN
+                                </span>
+                                {% else %}
+                                <span class="badge bg-secondary" title="Audio Inggris belum tersedia">
+                                    <i class="fas fa-times-circle"></i> 🇬🇧 EN
+                                </span>
+                                {% endif %}
+                                
+                                {% if ulos.audio_batak %}
+                                <span class="badge bg-success" title="Audio Batak tersedia">
+                                    <i class="fas fa-check-circle"></i> 🦅 BT
+                                </span>
+                                {% else %}
+                                <span class="badge bg-secondary" title="Audio Batak belum tersedia">
+                                    <i class="fas fa-times-circle"></i> 🦅 BT
+                                </span>
+                                {% endif %}
+                            </div>
+                            <!-- ========================================== -->
+                        </td>
+                        <td>
+                            <span class="badge bg-{{ 'success' if ulos.is_active else 'danger' }}">
+                                {{ 'Aktif' if ulos.is_active else 'Tidak Aktif' }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a href="{{ url_for('admin_edit_ulos', id=ulos.id) }}" class="btn btn-warning" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{{ url_for('ulos.ulos_detail_by_qr', qr_code=ulos.qr_code) }}" target="_blank" class="btn btn-info" title="Lihat di Website">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <form method="POST" action="{{ url_for('admin_delete_ulos', id=ulos.id) }}" 
+                                      style="display:inline-block; margin:0;" 
+                                      onsubmit="return confirm('Yakin ingin menghapus ULOS ini?')">
+                                    <button type="submit" class="btn btn-danger" title="Hapus">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center py-5">
+                            <i class="fas fa-umbrella fa-3x text-muted mb-3 d-block"></i>
+                            <p class="text-muted">Belum ada ULOS yang ditambahkan</p>
+                            <a href="{{ url_for('admin_add_ulos') }}" class="btn btn-success">
+                                <i class="fas fa-plus"></i> Tambah Sekarang
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

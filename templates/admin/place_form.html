@@ -1,0 +1,257 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>
+        <i class="fas fa-{{ 'plus' if not place else 'edit' }} text-primary"></i>
+        {{ 'Tambah' if not place else 'Edit' }} Tempat Wisata
+    </h2>
+    <a href="{{ url_for('admin_places') }}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Kembali
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form method="POST" enctype="multipart/form-data" 
+              action="{{ url_for('admin_add_place') if not place else url_for('admin_edit_place', id=place.id) }}">
+            
+            <!-- ===== Nama & Kategori ===== -->
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nama Wisata <span class="text-danger">*</span></label>
+                        <input type="text" name="name" class="form-control form-control-lg" 
+                               value="{{ place.name if place else '' }}" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Kategori <span class="text-danger">*</span></label>
+                        <select name="category_id" class="form-select form-select-lg" required>
+                            <option value="">Pilih Kategori</option>
+                            {% for cat in categories %}
+                            <option value="{{ cat.id }}" {% if place and place.category_id == cat.id %}selected{% endif %}>
+                                {{ cat.name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== Destination Group & Jenis ===== -->
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Destination Group</label>
+                        <select name="destination_group" class="form-select">
+                            <option value="umum" {% if place and place.destination_group == 'umum' %}selected{% endif %}>Umum</option>
+                            <option value="lumban_manik" {% if place and place.destination_group == 'lumban_manik' %}selected{% endif %}>Lumban Manik</option>
+                            <option value="huta_raja" {% if place and place.destination_group == 'huta_raja' %}selected{% endif %}>Huta Raja</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Jenis</label>
+                        <select name="place_type" class="form-select">
+                            <option value="wisata" {% if place and place.place_type == 'wisata' %}selected{% endif %}>Wisata</option>
+                            <option value="homestay" {% if place and place.place_type == 'homestay' %}selected{% endif %}>Homestay</option>
+                            <option value="umkm" {% if place and place.place_type == 'umkm' %}selected{% endif %}>UMKM</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== DESKRIPSI ===== -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Deskripsi</label>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Cara menulis deskripsi (Indonesia & Inggris):</strong>
+                    <ul class="mb-0 mt-1">
+                        <li>📝 Tulis bahasa Indonesia terlebih dahulu</li>
+                        <li>📌 Ketik <strong>[EN]</strong> di baris baru untuk memulai bahasa Inggris</li>
+                        <li>🌐 Setelah [EN], tulis versi bahasa Inggris</li>
+                        <li>↩️ Enter = ganti paragraf</li>
+                        <li>💡 Bahasa Inggris akan tampil dengan <strong>font berbeda</strong> (italic)</li>
+                    </ul>
+                </div>
+                <!-- ===== PERBAIKI: name="description_text" ===== -->
+                <textarea name="description_text" class="form-control" rows="10" 
+                          placeholder="Tulis deskripsi lengkap di sini...
+
+Contoh:
+Pantai Lumban Manik adalah destinasi wisata favorit di tepi Danau Toba.
+
+[EN]
+Lumban Manik Beach is a favorite tourist destination on the shores of Lake Toba."">{{ place.description_text or place.description or '' if place else '' }}</textarea>
+                <small class="text-muted">Gunakan <strong>[EN]</strong> untuk memisahkan bahasa Indonesia dan Inggris.</small>
+            </div>
+
+            <!-- ===== Alamat ===== -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Alamat</label>
+                <input type="text" name="address" class="form-control" 
+                       value="{{ place.address if place else '' }}">
+            </div>
+
+            <!-- ===== Latitude & Longitude ===== -->
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Latitude</label>
+                        <input type="text" name="latitude" class="form-control" 
+                               value="{{ place.latitude if place else '' }}">
+                        <small class="text-muted">Contoh: 2.6050</small>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Longitude</label>
+                        <input type="text" name="longitude" class="form-control" 
+                               value="{{ place.longitude if place else '' }}">
+                        <small class="text-muted">Contoh: 98.6970</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== Google Maps URL ===== -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Google Maps URL</label>
+                <input type="url" name="google_maps_url" class="form-control" 
+                       value="{{ place.google_maps_url if place else '' }}">
+                <small class="text-muted">Copy link dari Google Maps</small>
+            </div>
+
+            <!-- ===== WhatsApp & Jam Operasional ===== -->
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">WhatsApp</label>
+                        <input type="text" name="whatsapp_number" class="form-control" 
+                               value="{{ place.whatsapp_number if place else '' }}">
+                        <small class="text-muted">Contoh: 6281234567890</small>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Jam Operasional</label>
+                        <input type="text" name="opening_hours" class="form-control" 
+                               value="{{ place.opening_hours if place else '' }}">
+                        <small class="text-muted">Contoh: 08:00 - 17:00 WIB</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== FOTO UTAMA ===== -->
+            <div class="card bg-light mb-4">
+                <div class="card-header bg-primary text-white">
+                    <i class="fas fa-image"></i> Foto Utama
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Foto utama:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li>📸 Format: JPG, PNG, WebP (max 5 MB)</li>
+                            <li>💡 Foto baru akan <strong>MENGGANTI</strong> yang lama</li>
+                            <li>✅ <strong>Update data tetap berfungsi</strong> meskipun tidak upload foto</li>
+                        </ul>
+                    </div>
+                    <input type="file" name="photo" class="form-control" accept="image/*">
+                    {% if place and place.photo_path %}
+                    <div class="mt-3">
+                        <img src="{{ place.photo_path }}" style="max-height: 150px; object-fit: contain; background: #f0f2f5; border-radius: 8px; padding: 5px;">
+                        <small class="text-muted d-block mt-1">Foto saat ini</small>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- ===== GALERI FOTO ===== -->
+            <div class="card bg-light mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <i class="fas fa-images"></i> Galeri Foto
+                    <span class="badge bg-dark float-end">{{ place.photos|length if place else 0 }} file</span>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Cara Mengelola Galeri:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li>📤 <strong>Tambah foto:</strong> Upload file baru → foto akan <strong>DITAMBAHKAN</strong></li>
+                            <li>🗑️ <strong>Hapus foto:</strong> Centang checkbox lalu klik <strong>Update</strong></li>
+                            <li>💡 <strong>Foto lama:</strong> Akan tetap ada sampai Anda hapus sendiri</li>
+                            <li>✅ <strong>Update data:</strong> Tetap berfungsi meskipun tidak upload foto</li>
+                        </ul>
+                    </div>
+                    <input type="file" name="slide_photos" class="form-control" multiple accept="image/*" id="slideInput">
+                    <div id="fileCount" class="mt-2 text-muted">Jumlah file dipilih: 0</div>
+                    
+                    {% if place and place.photos %}
+                    <div class="row mt-3">
+                        {% for photo in place.photos|sort(attribute='sort_order') %}
+                        <div class="col-md-3 mb-3">
+                            <div class="card h-100">
+                                {% if photo.is_video %}
+                                <video style="height: 150px; object-fit: contain; background: #1a1a2e;">
+                                    <source src="{{ photo.photo_path }}" type="video/mp4">
+                                </video>
+                                <span class="badge bg-danger position-absolute top-0 end-0 m-2">
+                                    <i class="fas fa-video"></i>
+                                </span>
+                                {% else %}
+                                <img src="{{ photo.photo_path }}" style="height: 150px; object-fit: contain; background: #f0f2f5;">
+                                {% endif %}
+                                <div class="card-body p-2">
+                                    <div class="form-check">
+                                        <input type="checkbox" name="remove_photos" value="{{ photo.id }}" class="form-check-input" id="remove_{{ photo.id }}">
+                                        <label class="form-check-label text-danger small" for="remove_{{ photo.id }}">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </label>
+                                    </div>
+                                    <small class="text-muted d-block mt-1 text-truncate" style="font-size: 10px;">
+                                        {{ photo.caption or 'Tanpa caption' }}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <small class="text-muted">Centang checkbox pada foto yang ingin dihapus, lalu klik <strong>Update</strong></small>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- ===== STATUS ===== -->
+            <div class="mb-3">
+                <div class="form-check form-switch">
+                    <input type="checkbox" name="is_active" class="form-check-input" 
+                           {% if not place or place.is_active %}checked{% endif %}>
+                    <label class="form-check-label fw-bold">Aktif</label>
+                    <small class="text-muted d-block">Jika tidak aktif, tempat wisata tidak akan ditampilkan di website</small>
+                </div>
+            </div>
+
+            <!-- ===== BUTTONS ===== -->
+            <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+                <a href="{{ url_for('admin_places') }}" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-save"></i> {{ 'Update' if place else 'Simpan' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('slideInput').addEventListener('change', function() {
+        const count = this.files.length;
+        document.getElementById('fileCount').textContent = 'Jumlah file dipilih: ' + count;
+    });
+</script>
+{% endblock %}
