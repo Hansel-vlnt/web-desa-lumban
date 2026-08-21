@@ -1,0 +1,8 @@
+.venv
+venv
+.git
+.env
+*.sql
+*.pyc
+__pycache__
+*.log
