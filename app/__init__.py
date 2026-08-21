@@ -27,12 +27,13 @@ def create_app(config_class=Config):
         template_dir,
         os.path.join(os.getcwd(), 'templates'),
         os.path.join(os.getcwd(), 'app', 'templates'),
+        os.path.join(os.getcwd(), 'api', 'templates'),
         os.path.join(base_dir, 'templates'),
         '/var/task/templates',
-        '/var/task/app/templates'
+        '/var/task/app/templates',
+        '/var/task/api/templates'
     ]
-    loaders = [jinja2.FileSystemLoader(d) for d in candidate_dirs if os.path.exists(d)]
-    if not loaders:
+    loaders = [jinja2.FileSystemLoader(d) for d in candidate_dirs]
         loaders = [jinja2.FileSystemLoader(template_dir)]
     app.jinja_env.loader = jinja2.ChoiceLoader(loaders)
     app.jinja_loader = jinja2.ChoiceLoader(loaders)

@@ -1,0 +1,121 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-images text-info"></i> Galeri</h2>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-white">
+        <h6 class="mb-0">Upload Foto Baru</h6>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('admin_add_gallery') }}" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="text" name="title" class="form-control" placeholder="Judul">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="caption" class="form-control" placeholder="Caption">
+                </div>
+                <div class="col-md-3">
+                    <select name="category" class="form-select">
+                        <option value="desa">Desa</option>
+                        <option value="wisata">Wisata</option>
+                        <option value="budaya">Budaya</option>
+                        <option value="kuliner">Kuliner</option>
+                        <option value="hero">Hero Image</option>
+                        <option value="hero_background">Hero Background</option>
+                        <option value="logo">Logo Desa</option>
+                        <option value="logo_bumdes">Logo BUMDES</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <input type="file" name="photo" class="form-control" accept="image/*" required>
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-upload"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row g-3">
+    {% for image in images %}
+    <div class="col-md-3">
+        <div class="card h-100">
+            <img src="{{ image.photo_path }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+            <div class="card-body">
+                <h6 class="card-title">{{ image.title or 'Gambar' }}</h6>
+                <p class="card-text small text-muted">{{ image.caption or '' }}</p>
+                <span class="badge {% if image.category == 'hero' %}bg-warning{% elif image.category == 'hero_background' %}bg-success{% elif image.category == 'logo' %}bg-primary{% elif image.category == 'logo_bumdes' %}bg-danger{% else %}bg-info{% endif %}">
+                    {{ image.category|replace('_', ' ')|title }}
+                </span>
+                <div class="mt-2">
+                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ image.id }}">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <form method="POST" action="{{ url_for('admin_delete_gallery', id=image.id) }}"
+                          style="display:inline-block;" onsubmit="return confirm('Hapus foto ini?')">
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal{{ image.id }}" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="{{ url_for('admin_edit_gallery', id=image.id) }}">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Galeri</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label>Judul</label>
+                            <input type="text" name="title" class="form-control" value="{{ image.title }}">
+                        </div>
+                        <div class="mb-3">
+                            <label>Caption</label>
+                            <input type="text" name="caption" class="form-control" value="{{ image.caption }}">
+                        </div>
+                        <div class="mb-3">
+                            <label>Kategori</label>
+                            <select name="category" class="form-select">
+                                <option value="desa" {% if image.category == 'desa' %}selected{% endif %}>Desa</option>
+                                <option value="wisata" {% if image.category == 'wisata' %}selected{% endif %}>Wisata</option>
+                                <option value="budaya" {% if image.category == 'budaya' %}selected{% endif %}>Budaya</option>
+                                <option value="kuliner" {% if image.category == 'kuliner' %}selected{% endif %}>Kuliner</option>
+                                <option value="hero" {% if image.category == 'hero' %}selected{% endif %}>Hero Image</option>
+                                <option value="hero_background" {% if image.category == 'hero_background' %}selected{% endif %}>Hero Background</option>
+                                <option value="logo" {% if image.category == 'logo' %}selected{% endif %}>Logo Desa</option>
+                                <option value="logo_bumdes" {% if image.category == 'logo_bumdes' %}selected{% endif %}>Logo BUMDES</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input type="checkbox" name="is_active" class="form-check-input" 
+                                       {% if image.is_active %}checked{% endif %}>
+                                <label class="form-check-label">Aktif</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

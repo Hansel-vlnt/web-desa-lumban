@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Kampung Ulos - Desa Wisata Lumban Suhi-Suhi Toruan{% endblock %}</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- ====== NAVBAR ====== -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('public.index') }}">
+                {% if logo_desa %}
+                <img src="{{ logo_desa.photo_path }}" alt="Logo Desa" class="logo-desa">
+                {% else %}
+                <i class="fas fa-umbrella" style="color: var(--yellow); font-size: 1.8rem;"></i>
+                {% endif %}
+                <span class="brand-kampung">Lumban Suhi Suhi</span>
+                <span class="brand-ulos">Toruan</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{{ url_for('public.index') }}"><i class="fas fa-home"></i> Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link {% if '/wisata-alam' in request.path %}active{% endif %}" href="{{ url_for('public.wisata_alam') }}"><i class="fas fa-mountain"></i> Wisata Alam</a></li>
+                    <li class="nav-item"><a class="nav-link {% if '/homestay' in request.path %}active{% endif %}" href="{{ url_for('public.homestay_list') }}"><i class="fas fa-bed"></i> Homestay</a></li>
+                    <li class="nav-item"><a class="nav-link {% if '/umkm' in request.path %}active{% endif %}" href="{{ url_for('public.umkm_list') }}"><i class="fas fa-store"></i> UMKM</a></li>
+                    <li class="nav-item"><a class="nav-link {% if '/ulos' in request.path %}active{% endif %}" href="{{ url_for('ulos.ulos_gallery') }}"><i class="fas fa-umbrella"></i> ULOS</a></li>
+                    {% if current_user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link text-warning" href="{{ url_for('dashboard') }}"><i class="fas fa-user-cog"></i> Admin</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ====== MAIN CONTENT ====== -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                
+                <!-- ===== KOLOM 1: Info Desa ===== -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="brand-footer">
+                        {% if logo_desa %}
+                        <img src="{{ logo_desa.photo_path }}" alt="Logo Desa" class="logo-footer">
+                        {% endif %}
+                        <span>DeWi</span>
+                        <span class="brand-ulos">LuSi</span>
+                    </div>
+                    <p>Desa Lumban Suhi-Suhi Toruan<br>Kec. Pangururan, Kab. Samosir<br>Sumatera Utara, Indonesia</p>
+                    <p><i class="fas fa-phone" style="color: var(--yellow);"></i> +62 82273896001</p>
+                    <p><i class="fas fa-envelope" style="color: var(--yellow);"></i> info@kampungulos.com</p>
+                </div>
+                
+                <!-- ===== KOLOM 2: Menu ===== -->
+                <div class="col-lg-4 col-md-6">
+                    <h5><i class="fas fa-bars"></i> Menu</h5>
+                    <ul>
+                        <li><a href="{{ url_for('public.index') }}">Beranda</a></li>
+                        <li><a href="{{ url_for('public.about') }}">Tentang Desa</a></li>
+                        <li><a href="{{ url_for('places.places_list') }}">Spot Wisata</a></li>
+                        <li><a href="{{ url_for('ulos.ulos_gallery') }}">Galeri ULOS</a></li>
+                    </ul>
+                </div>
+                
+                <!-- ===== KOLOM 3: Logo Partners & Sosmed ===== -->
+                <div class="col-lg-4 col-md-12">
+                    
+                    <!-- ===== LOGO BUMDES, LPPM, KKN ===== -->
+                    <div class="logo-partners-wrapper">
+                        <div class="logo-partners-grid">
+                            <!-- BUMDES -->
+                            {% if logo_bumdes %}
+                            <div class="logo-item">
+                                <img src="{{ logo_bumdes.photo_path }}" alt="Logo BUMDES" class="logo-partner">
+                                <span class="logo-label">BUMDES</span>
+                            </div>
+                            {% endif %}
+                            
+                            <!-- LPPM -->
+                            <div class="logo-item">
+                                <img src="{{ url_for('static', filename='uploads/gallery/logo-lppm.jfif') }}" 
+                                     alt="Logo LPPM" 
+                                     class="logo-partner"
+                                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                                <div class="logo-placeholder" style="display:none;height:55px;width:55px;border-radius:10px;background:linear-gradient(135deg,#1a5276,#2e86c1);align-items:center;justify-content:center;color:white;font-size:10px;font-weight:700;border:2px solid rgba(253,192,5,0.15);">
+                                    LPPM
+                                </div>
+                                <span class="logo-label">LPPM</span>
+                            </div>
+                            
+                            <!-- KKN -->
+                            <div class="logo-item">
+                                <img src="{{ url_for('static', filename='uploads/gallery/logo-kkn.png') }}" 
+                                     alt="Logo KKN" 
+                                     class="logo-partner"
+                                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                                <div class="logo-placeholder" style="display:none;height:55px;width:55px;border-radius:10px;background:linear-gradient(135deg,#1a6e4a,#2cb82a);align-items:center;justify-content:center;color:white;font-size:10px;font-weight:700;border:2px solid rgba(253,192,5,0.15);">
+                                    KKN
+                                </div>
+                                <span class="logo-label">KKN UNIMED</span>
+                            </div>
+                        </div>
+                        <p class="bumdes-text">BUMDES Lumban Suhi Suhi Toruan</p>
+                    </div>
+                    <!-- ====================================== -->
+                    
+                    <!-- ===== SOSIAL MEDIA ===== -->
+                    <h5><i class="fas fa-share-alt"></i> Ikuti Kami</h5>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/kknlumbansuhisuhitoruan_26?igsh=bDA2djZ0aWlkOWtu" class="btn"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/share/1XmvrZ1gMJ/" class="btn"><i class="fab fa-facebook"></i></a>
+                        <a href="https://youtube.com/@lumbansuhitoruan132?si=n9WMDadnbX8B28IF" class="btn"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.tiktok.com/@kknlumbansuhitoruan26?_r=1&_t=ZS-98r0YYj9ZVy" class="btn"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                    <p class="mt-3 small" style="color: rgba(255,255,255,0.3);">
+                        Develop by KKN UNIMED 2026 Kelompok 2
+                    </p>
+                </div>
+                
+            </div><!-- end row -->
+            
+            <div class="footer-bottom">
+                <span>© kkn_unimed2026_lumban suhi suhi toruan</span>
+            </div>
+        </div><!-- end container -->
+    </footer>
+
+    <!-- ====== SCRIPTS ====== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 80,
+            easing: 'ease-out-cubic'
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,62 @@
+{% extends "public/base.html" %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold"><i class="fas fa-images text-warning"></i> Galeri</h1>
+        <p class="lead">Dokumentasi Desa Lumban Suhi-Suhi Toruan</p>
+    </div>
+</section>
+
+<div class="container py-5">
+    <!-- Filter -->
+    <div class="text-center mb-4">
+        <div class="btn-group flex-wrap gap-2">
+            <button class="btn btn-outline-primary filter-btn active" data-filter="all">Semua</button>
+            {% for cat in categories %}
+            <button class="btn btn-outline-primary filter-btn" data-filter="{{ cat }}">{{ cat|title }}</button>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="row g-4">
+        {% for image in images %}
+        <div class="col-md-3 col-6 gallery-item" data-category="{{ image.category }}">
+            <div class="card h-100 border-0 shadow-sm">
+                <img src="{{ image.photo_path }}" class="card-img-top" style="height: 200px; object-fit: cover; border-radius: 12px 12px 0 0;">
+                <div class="card-body p-3">
+                    <h6 class="card-title">{{ image.title or 'Gambar' }}</h6>
+                    <p class="card-text small text-muted">{{ image.caption or '' }}</p>
+                    <span class="badge bg-primary">{{ image.category or 'desa' }}</span>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12 text-center py-5">
+            <i class="fas fa-images fa-4x text-muted mb-3 d-block"></i>
+            <p class="text-muted">Belum ada foto di galeri</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    // Filter Gallery
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            const filter = this.dataset.filter;
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                if (filter === 'all' || item.dataset.category === filter) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

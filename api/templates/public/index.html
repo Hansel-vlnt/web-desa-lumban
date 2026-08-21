@@ -1,0 +1,299 @@
+{% extends "public/base.html" %}
+
+<!-- ===== KIRIM LOGO KE BASE.HTML ===== -->
+{% set logo_desa = logo_desa %}
+{% set logo_bumdes = logo_bumdes %}
+<!-- ================================== -->
+
+{% block content %}
+<!-- ====== HERO SECTION ====== -->
+<section class="hero" id="heroSection">
+    <!-- ===== VIDEO BACKGROUND ===== -->
+    {% if hero_background %}
+    <video autoplay muted loop playsinline class="hero-video" id="heroVideo">
+        <source src="{{ hero_background.photo_path }}" type="video/mp4">
+        <source src="{{ hero_background.photo_path }}" type="video/webm">
+        <source src="{{ hero_background.photo_path }}" type="video/ogg">
+        Browser Anda tidak mendukung video.
+    </video>
+    <div class="hero-overlay"></div>
+    {% else %}
+    <!-- Fallback: background gradient jika video tidak ada -->
+    <div class="hero-overlay" style="background: linear-gradient(135deg, rgba(26,26,46,0.85) 0%, rgba(85,0,0,0.8) 50%, rgba(84,1,71,0.7) 100%);"></div>
+    {% endif %}
+    <!-- ============================ -->
+    
+    <div class="hero-grid"></div>
+    <div class="hero-orb orb-1"></div>
+    <div class="hero-orb orb-2"></div>
+    <div class="hero-orb orb-3"></div>
+    
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-lg-7" data-aos="fade-right" data-aos-duration="1000">
+                <h1 class="hero-title">
+                    Selamat Datang di <br>
+                    <span class="highlight">Desa Wisata</span><br>
+                    <span class="highlight">Lumban Suhi Suhi Toruan</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Pusat Kerajinan Tenun Ulos Tradisional Batak Toba
+                    <span class="location">📍 Kecamatan Pangururan, Kabupaten Samosir, Sumatera Utara</span>
+                </p>
+                <div class="hero-buttons">
+                    <a href="{{ url_for('public.wisata_alam') }}" class="btn-hero-primary">
+                        <i class="fas fa-map-marked-alt"></i> Jelajahi Wisata
+                    </a>
+                    <a href="{{ url_for('ulos.ulos_gallery') }}" class="btn-hero-secondary">
+                        <i class="fas fa-umbrella"></i> Lihat ULOS
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-lg-5 text-center" data-aos="fade-left" data-aos-duration="1000">
+                <div class="hero-image-wrapper">
+                    {% if hero_image %}
+                    <img src="{{ hero_image.photo_path }}" alt="{{ hero_image.title }}" class="hero-main-image">
+                    {% else %}
+                    <div class="hero-main-image" style="background: linear-gradient(135deg, var(--maroon), var(--purple)); display: flex; align-items: center; justify-content: center; min-height: 350px;">
+                        <i class="fas fa-umbrella" style="font-size: 80px; color: var(--yellow); opacity: 0.5;"></i>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Floating Badges -->
+                    <div class="floating-badge badge-1">
+                        <span class="badge-icon"><i class="fas fa-umbrella"></i></span>
+                        ULOS
+                    </div>
+                    <div class="floating-badge badge-2">
+                        <span class="badge-icon" style="background: var(--orange); color: white;"><i class="fas fa-theater-masks"></i></span>
+                        Budaya
+                    </div>
+                    <div class="floating-badge badge-3">
+                        <span class="badge-icon" style="background: var(--green); color: white;"><i class="fas fa-umbrella-beach"></i></span>
+                        Pantai
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="wave-divider">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0 C300,100 600,0 900,80 C1050,120 1150,40 1200,60 L1200,120 L0,120 Z" fill="#f8f9fa"/>
+        </svg>
+    </div>
+</section>
+
+<!-- ====== SEJARAH DESA ====== -->
+<section class="section-sejarah-landing section-padding" id="sejarah">
+    <div class="container">
+        <div class="section-title-wrapper" data-aos="fade-up">
+            <h2 class="section-title"><span class="highlight">Sejarah</span> Desa</h2>
+            <p class="section-subtitle">Desa Lumban Suhi-Suhi Toruan</p>
+            <div class="section-divider"></div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
+                <div class="sejarah-card-landing">
+                    <div class="sejarah-content-landing">
+                        {% if sejarah %}
+                            {{ sejarah.content|safe }}
+                        {% else %}
+                            <h4>Asal Usul Desa</h4>
+                            <p>Lumban Suhi Suhi Toruan merupakan salah satu desa yang berada di Kecamatan Pangururan, Kabupaten Samosir, Provinsi Sumatera Utara, Indonesia. Desa ini salah satu Desa dari 99 Desa yang ada di Pulau Samosir, Pulau yang berada di tengah Danau Toba, sebuah kawasan wisata yang terkenal dengan keindahan alam dan kekayaan budaya Batak.</p>
+                           
+                            <h4>Geografis Desa</h4>
+                            <p>Desa Lumban Suhi Suhi Toruan pada tahun 2024 berpenduduk 2350 jiwa dengan luas wilayah 420 Ha. Desa ini secara administrasi berbatasan dengan:</p>
+                            <ul>
+                                <li><strong>Utara:</strong> Desa Siopat Sosor, Pangururan, Samosir</li>
+                                <li><strong>Timur:</strong> Desa Lumban Suhi Suhi Dolok</li>
+                                <li><strong>Selatan:</strong> Desa Sitolu Huta, Pangururan, Samosir</li>
+                                <li><strong>Barat:</strong> Danau Toba</li>
+                            </ul>
+
+                            <h4>Akses Transportasi</h4>
+                            <p>Terdapat jalan utama yang melintasi Desa Lumban Suhi Suhi Toruan yaitu jalan lingkar Pulau Samosir yang mengarah ke Ibu kota Samosir Kecamatan Pangururan dan juga Kecamatan Simanindo.</p>
+                            
+                            <a href="{{ url_for('public.about') }}" class="btn-read-more">
+                                Baca Selengkapnya <i class="fas fa-arrow-right"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== PEMERINTAHAN DESA ====== -->
+<section class="section-pemerintahan section-padding" id="pemerintahan">
+    <div class="container">
+        <div class="section-title-wrapper" data-aos="fade-up">
+            <h2 class="section-title"><span class="highlight">Pemerintahan</span> Desa</h2>
+            <p class="section-subtitle">Struktur Pemerintahan Desa Lumban Suhi-Suhi Toruan</p>
+            <div class="section-divider"></div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up" data-aos-delay="100">
+                <div class="pemerintahan-card">
+                    {% if pemerintahan %}
+                        {{ pemerintahan.content|safe }}
+                    {% else %}
+                        <ul>
+                            <li><span class="li-icon">👤</span> <strong>Kepala Desa:</strong> [Nama Kepala Desa]</li>
+                            <li><span class="li-icon">📋</span> <strong>Sekretaris Desa:</strong> [Nama Sekdes]</li>
+                            <li><span class="li-icon">🏘️</span> <strong>Kepala Dusun Lumban Manik:</strong> [Nama Kadus]</li>
+                            <li><span class="li-icon">🏘️</span> <strong>Kepala Dusun Huta Raja:</strong> [Nama Kadus]</li>
+                            <li><span class="li-icon">🏛️</span> <strong>BPD:</strong> [Ketua BPD]</li>
+                            <li><span class="li-icon">🤝</span> <strong>LPM:</strong> [Ketua LPM]</li>
+                            <li><span class="li-icon">🌿</span> <strong>Pokdarwis:</strong> [Ketua Pokdarwis]</li>
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== DESTINASI WISATA ====== -->
+<section class="section-destinasi section-padding" id="destinasi">
+    <div class="container">
+        <div class="section-title-wrapper" data-aos="fade-up">
+            <h2 class="section-title"><span class="highlight">Destinasi</span> Wisata</h2>
+            <p class="section-subtitle">Jelajahi keindahan Desa Lumban Suhi-Suhi Toruan</p>
+            <div class="section-divider"></div>
+        </div>
+        
+        <div class="destinasi-grid">
+            {% for place in all_places[:8] %}
+            <div class="destinasi-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 80 }}">
+                <div class="card-img">
+                    {% if place.photo_path %}
+                    <img src="{{ place.photo_path }}" alt="{{ place.name }}">
+                    {% else %}
+                    <div style="width:100%;height:100%;background:linear-gradient(135deg, var(--maroon), var(--purple));display:flex;align-items:center;justify-content:center;">
+                        <i class="fas fa-image" style="font-size:40px;color:rgba(255,255,255,0.2);"></i>
+                    </div>
+                    {% endif %}
+                    <span class="card-badge">{{ place.place_type|title }}</span>
+                </div>
+                <div class="card-body">
+                    <h5>{{ place.name }}</h5>
+                    <span class="card-type">{{ place.destination_group|replace('_', ' ')|title }}</span>
+                    <a href="{{ url_for('places.place_detail', slug=place.slug) }}" class="btn-detail">
+                        Lihat Detail <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-5" data-aos="fade-up">
+            <a href="{{ url_for('places.places_list') }}" class="btn-view-all">
+                Lihat Semua Destinasi <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ====== GALERI ULOS ====== -->
+<section class="section-ulos section-padding" id="ulos">
+    <div class="container">
+        <div class="section-title-wrapper" data-aos="fade-up">
+            <h2 class="section-title"><span class="highlight">Galeri</span> ULOS</h2>
+            <p class="section-subtitle">Warisan Budaya Batak Toba - Koleksi ULOS Asli</p>
+            <div class="section-divider"></div>
+        </div>
+        
+        <div class="ulos-grid">
+            {% for ulos in featured_ulos %}
+            <div class="ulos-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                <div class="card-img">
+                    {% if ulos.photos %}
+                    <img src="{{ ulos.photos[0].photo_path }}" alt="{{ ulos.name }}">
+                    {% else %}
+                    <div style="width:100%;height:100%;background:linear-gradient(135deg, var(--purple), var(--maroon));display:flex;align-items:center;justify-content:center;">
+                        <i class="fas fa-umbrella" style="font-size:50px;color:rgba(255,255,255,0.2);"></i>
+                    </div>
+                    {% endif %}
+                    <span class="card-badge">{{ ulos.qr_code }}</span>
+                </div>
+                <div class="card-body">
+                    <h6>{{ ulos.name }}</h6>
+                    <a href="{{ url_for('ulos.ulos_detail_by_qr', qr_code=ulos.qr_code) }}" class="btn-ulos">
+                        <i class="fas fa-qrcode"></i> Detail & QR
+                    </a>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-umbrella fa-4x text-muted mb-3 d-block"></i>
+                <p class="text-muted">Belum ada ULOS yang ditambahkan</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-5" data-aos="fade-up">
+            <a href="{{ url_for('ulos.ulos_gallery') }}" class="btn-view-all">
+                Lihat Semua ULOS <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ====== KONTAK ====== -->
+<section class="section-kontak section-padding" id="kontak">
+    <div class="container">
+        <div class="section-title-wrapper" data-aos="fade-up">
+            <h2 class="section-title"><span class="highlight">Hubungi</span> Kami</h2>
+            <p class="section-subtitle">Siap membantu Anda menjelajahi Kampung Ulos</p>
+            <div class="section-divider"></div>
+        </div>
+        
+        <div class="kontak-grid">
+            <div class="kontak-card" data-aos="fade-up">
+                <div class="kontak-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <h5>Alamat</h5>
+                <p>Desa Lumban Suhi-Suhi Toruan<br>Kec. Pangururan, Kab. Samosir<br>Sumatera Utara</p>
+            </div>
+            <div class="kontak-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="kontak-icon"><i class="fas fa-phone"></i></div>
+                <h5>Telepon</h5>
+                <p>+6282273896001</p>
+                <a href="https://wa.me/6282273896001" class="btn-green">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+            </div>
+            <div class="kontak-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="kontak-icon"><i class="fas fa-clock"></i></div>
+                <h5>Jam Operasional</h5>
+                <p>Senin - Minggu<br>08:00 - 17:00 WIB</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== SCRIPT DEBUG VIDEO ====== -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var video = document.getElementById('heroVideo');
+        if (video) {
+            console.log('🎬 Video ditemukan:', video.src);
+            // Coba putar video
+            video.play().then(function() {
+                console.log('✅ Video berhasil diputar');
+            }).catch(function(e) {
+                console.log('❌ Video gagal diputar:', e.message);
+                // Tunggu klik user untuk memutar
+                document.addEventListener('click', function() {
+                    video.play();
+                }, {once: true});
+            });
+        } else {
+            console.log('❌ Video tidak ditemukan di halaman');
+            console.log('💡 Pastikan hero_background ada di database');
+        }
+    });
+</script>
+{% endblock %}

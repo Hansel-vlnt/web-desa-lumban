@@ -1,0 +1,188 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>
+        <i class="fas fa-map-marked-alt text-primary"></i> 
+        Tempat Wisata
+        <span class="badge bg-primary ms-2">{{ places|length }}</span>
+    </h2>
+    <a href="{{ url_for('admin_add_place') }}" class="btn btn-primary btn-lg">
+        <i class="fas fa-plus-circle"></i> Tambah Wisata
+    </a>
+</div>
+
+<!-- ===== FILTER & SEARCH ===== -->
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Cari tempat wisata...">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select id="categoryFilter" class="form-select">
+                    <option value="all">Semua Kategori</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat.id }}">{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select id="statusFilter" class="form-select">
+                    <option value="all">Semua Status</option>
+                    <option value="1">Aktif</option>
+                    <option value="0">Tidak Aktif</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-outline-secondary w-100" onclick="resetFilters()">
+                    <i class="fas fa-undo"></i> Reset
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== TABEL DATA ===== -->
+<div class="card">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <h6 class="mb-0"><i class="fas fa-list text-primary"></i> Daftar Tempat Wisata</h6>
+        <span class="text-muted small" id="rowCount">Menampilkan {{ places|length }} data</span>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0" id="placesTable">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 50px;">#</th>
+                        <th>Nama</th>
+                        <th>Kategori</th>
+                        <th>Grup</th>
+                        <th>Status</th>
+                        <th style="width: 150px;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for place in places %}
+                    <tr data-category="{{ place.category_id }}" data-status="{{ place.is_active|int }}">
+                        <td>{{ loop.index }}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                {% if place.photo_path %}
+                                <img src="{{ place.photo_path }}" alt="{{ place.name }}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px; margin-right: 12px;">
+                                {% else %}
+                                <div style="width: 40px; height: 40px; border-radius: 8px; background: #e9ecef; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                                    <i class="fas fa-image text-muted"></i>
+                                </div>
+                                {% endif %}
+                                <div>
+                                    <strong>{{ place.name }}</strong>
+                                    <div class="text-muted small">{{ place.slug }}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge bg-info">{{ place.category.name if place.category else '-' }}</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-secondary">{{ place.destination_group|replace('_', ' ')|title }}</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-{{ 'success' if place.is_active else 'danger' }}">
+                                <i class="fas fa-{{ 'check-circle' if place.is_active else 'times-circle' }}"></i>
+                                {{ 'Aktif' if place.is_active else 'Tidak Aktif' }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a href="{{ url_for('admin_edit_place', id=place.id) }}" class="btn btn-warning" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{{ url_for('places.place_detail', slug=place.slug) }}" target="_blank" class="btn btn-info" title="Lihat">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <form method="POST" action="{{ url_for('admin_delete_place', id=place.id) }}" 
+                                      style="display:inline-block; margin:0;" 
+                                      onsubmit="return confirm('Yakin ingin menghapus tempat wisata ini?')">
+                                    <button type="submit" class="btn btn-danger" title="Hapus">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center py-5">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3 d-block"></i>
+                            <p class="text-muted">Belum ada data tempat wisata</p>
+                            <a href="{{ url_for('admin_add_place') }}" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Tambah Sekarang
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const statusFilter = document.getElementById('statusFilter');
+        const rows = document.querySelectorAll('#placesTable tbody tr');
+        const rowCount = document.getElementById('rowCount');
+
+        function filterTable() {
+            const search = searchInput.value.toLowerCase();
+            const category = categoryFilter.value;
+            const status = statusFilter.value;
+            let visible = 0;
+
+            rows.forEach(row => {
+                const name = row.querySelector('td:nth-child(2)')?.textContent?.toLowerCase() || '';
+                const rowCategory = row.dataset.category || '';
+                const rowStatus = row.dataset.status || '';
+                
+                let show = true;
+                
+                if (search && !name.includes(search)) {
+                    show = false;
+                }
+                if (category !== 'all' && rowCategory !== category) {
+                    show = false;
+                }
+                if (status !== 'all' && rowStatus !== status) {
+                    show = false;
+                }
+                
+                row.style.display = show ? '' : 'none';
+                if (show) visible++;
+            });
+            
+            rowCount.textContent = 'Menampilkan ' + visible + ' data';
+        }
+
+        searchInput.addEventListener('keyup', filterTable);
+        categoryFilter.addEventListener('change', filterTable);
+        statusFilter.addEventListener('change', filterTable);
+    });
+
+    function resetFilters() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('categoryFilter').value = 'all';
+        document.getElementById('statusFilter').value = 'all';
+        document.querySelectorAll('#placesTable tbody tr').forEach(row => {
+            row.style.display = '';
+        });
+        document.getElementById('rowCount').textContent = 'Menampilkan {{ places|length }} data';
+    }
+</script>
+{% endblock %}
