@@ -34,7 +34,6 @@ def create_app(config_class=Config):
         '/var/task/api/templates'
     ]
     loaders = [jinja2.FileSystemLoader(d) for d in candidate_dirs]
-        loaders = [jinja2.FileSystemLoader(template_dir)]
     app.jinja_env.loader = jinja2.ChoiceLoader(loaders)
     app.jinja_loader = jinja2.ChoiceLoader(loaders)
     
