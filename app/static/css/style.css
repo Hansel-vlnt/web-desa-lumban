@@ -1123,12 +1123,15 @@ body {
 }
 
 .kontak-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 25px;
 }
 
 .kontak-card {
+    flex: 1 1 280px;
+    max-width: 350px;
     background: rgba(255,255,255,0.95);
     backdrop-filter: blur(10px);
     border-radius: var(--radius);
